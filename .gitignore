@@ -1,0 +1,16 @@
+*
+
+!.*/
+!.xmonad/*.hs
+!.zshrc
+!.xinitrc
+!.bin
+!.conkyrc
+!.*/*/
+!.config/taffybar/*.hs
+!.gitignore
+!*/
+!bin/*
+.oh-my-zsh/
+
+*
