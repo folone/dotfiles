@@ -8,9 +8,9 @@
 !.conkyrc
 !.*/*/
 !.config/taffybar/*.hs
-!.gitignore
 !*/
 !bin/*
 .oh-my-zsh/
+!.gitignore
 
 *
