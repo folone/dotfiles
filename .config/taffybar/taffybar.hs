@@ -35,7 +35,7 @@ main = do
   let clock = textClockNew Nothing "<span fgcolor='orange'>%a %b %_d %H:%M</span>" 1
       log   = xmonadLogNew
       note  = notifyAreaNew defaultNotificationConfig
-      wea   = weatherNew (defaultWeatherConfig "UKKK") { weatherTemplate = "$tempC$°C @ $humidity$" } 10
+      wea   = weatherNew (defaultWeatherConfig "EDBB") { weatherTemplate = "$tempC$°C @ $humidity$" } 10
       mpris = mprisNew
       mem   = pollingGraphNew memCfg 1 memCallback
       cpu   = pollingGraphNew cpuCfg 0.5 cpuCallback
