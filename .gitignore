@@ -10,6 +10,7 @@
 !.config/taffybar/*.hs
 !*/
 !bin/*
+bin/dm_install.sh
 .oh-my-zsh/
 !.gitignore
 
