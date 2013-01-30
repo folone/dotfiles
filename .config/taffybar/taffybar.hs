@@ -25,13 +25,13 @@ cpuCallback = do
 
 main = do
   let memCfg = defaultGraphConfig { graphDataColors = [(1, 0, 0, 1)]
-                                  , graphLabel = Just "mem"
+                                  , graphLabel = Just "μ"
                                   , graphDirection = RIGHT_TO_LEFT
                                   }
       cpuCfg = defaultGraphConfig { graphDataColors = [ (0, 1, 0, 1)
                                                       , (1, 0, 1, 0.5)
                                                       ]
-                                  , graphLabel = Just "cpu"
+                                  , graphLabel = Just "η"
                                   , graphDirection = RIGHT_TO_LEFT
                                   }
   let clock = textClockNew Nothing "<span fgcolor='orange'>%a %b %_d %H:%M</span>" 1
