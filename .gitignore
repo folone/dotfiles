@@ -4,6 +4,7 @@
 !.xmonad/*.hs
 !.zshrc
 !.xinitrc
+!.Xresources
 !.bin
 !.conkyrc
 !.*/*/
@@ -13,5 +14,3 @@
 bin/dm_install.sh
 .oh-my-zsh/
 !.gitignore
-
-*
