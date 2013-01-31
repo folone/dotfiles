@@ -1,5 +1,5 @@
 -- Imports.
-import qualified Data.Map        as M
+import qualified Data.Map    as M
 import Data.Ratio
 
 import XMonad
@@ -31,11 +31,11 @@ main = do
 
 -- Custom PP.
 myTaffyBarPP = taffybarDefaultPP {
-                            ppCurrent = taffybarColor "#f8f8f8" "DodgerBlue4"   . wrap " " " "
-                          , ppVisible = taffybarColor "#f8f8f8" "LightSkyBlue4" . wrap " " " "
-                          , ppUrgent  = taffybarColor "#f8f8f8" "red4"          . wrap " " " "
-                          , ppLayout  = taffybarColor "DarkOrange" "" . wrap " [" "] "
-                          , ppTitle   = taffybarColor "#61ce3c" "" . shorten 50
+    ppCurrent = taffybarColor "#f8f8f8" "DodgerBlue4"   . wrap " " " "
+  , ppVisible = taffybarColor "#f8f8f8" "LightSkyBlue4" . wrap " " " "
+  , ppUrgent  = taffybarColor "#f8f8f8" "red4"          . wrap " " " "
+  , ppLayout  = taffybarColor "DarkOrange" "" . wrap " [" "] "
+  , ppTitle   = taffybarColor "#61ce3c" "" . shorten 50
   }
 
 -- Keybinding to toggle the gap for the bar.
@@ -61,7 +61,7 @@ mosaicLayout     = named "mosaic"   $ MosaicAlt M.empty
 gridLayout       = named "grid"     $ Grid
 spiralLayout     = named "spiral"   $ spiral (1 % 1)
 
-myLayoutHook = smartBorders $ tallLayout ||| wideLayout   ||| singleLayout ||| circleLayout
+myLayoutHook = smartBorders $ tallLayout ||| wideLayout   ||| singleLayout ||| circleLayout ||| twoPaneLayout
                                          ||| mosaicLayout ||| gridLayout   ||| spiralLayout
 
 -- Main config.
