@@ -17,7 +17,9 @@ URxvt.saveLines:		10240
 URxvt.geomtry:			120x36
 Urxvt.cursorBlink:		true
 urxvt.urgentOnBell:     	true
-URxvt.scrollTtyOutput:		false
+!URxvt.scrollTtyOutput:		false
+URxvt.pointerBlank:		true
+URxvt*altSendsEscape: 		true
 
 URxvt.font:             	xft:Terminus:size=9
 URxvt.iconFile:			~/.icons/terminal.png
@@ -25,7 +27,7 @@ URxvt.scrollBar:		false
 URxvt.scrollstyle:		plain
 URxvt.scrollColor:		#557FB0
 URxvt.scrollBar_right:		true
-URxvt.perl-ext-common:  	default,matcher,clipboard
+!URxvt.perl-ext-common:  	default,matcher,clipboard
 URxvt.matcher.button: 		1
 URxvt.urlLauncher:      	chromium
 URxvt.perl-ext-common:		default,tabbed
