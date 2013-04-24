@@ -3,6 +3,7 @@ import qualified Data.Map    as M
 import Data.Ratio
 
 import XMonad
+import XMonad.Actions.CopyWindow
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.EZConfig(additionalKeys, additionalKeysP)
@@ -64,6 +65,13 @@ spiralLayout     = named "spiral"   $ spiral (1 % 1)
 myLayoutHook = smartBorders $ tallLayout ||| wideLayout   ||| singleLayout ||| circleLayout ||| twoPaneLayout
                                          ||| mosaicLayout ||| gridLayout   ||| spiralLayout
 
+myManageHook = composeAll
+   [ className =? "Chromium" --> doShift "β"
+   , className =? "Skype" --> doShift "δ"
+   , className =? "Emacs" --> (ask >>= doF . \w -> (\ws -> foldr ($) ws (copyToWss ["α"] w ) . W.shift "ζ") :: ManageHook)
+   ]
+   where copyToWss ids win = map (copyWindow win) ids
+
 -- Main config.
 myConfig = defaultConfig {
     modMask            = myModMask
@@ -71,7 +79,7 @@ myConfig = defaultConfig {
   , focusFollowsMouse  = False
   , workspaces         = myWorkSpaces
   , layoutHook         = myLayoutHook
-  , manageHook         = manageHook defaultConfig <+> manageDocks
+  , manageHook         = myManageHook <+> manageHook defaultConfig <+> manageDocks
   , normalBorderColor  = "#2a2b2f"
   , focusedBorderColor = "DarkOrange"
   , borderWidth        = 1
