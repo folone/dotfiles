@@ -40,5 +40,6 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 export PYTHONPATH=/home/folone/workspace/backend
 export SCALA_HOME=/usr/bin/scala/
-export PATH=/home/folone/perl5/bin:/home/folone/perl5/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:/opt/qt/bin:/opt/maven/bin/:/home/folone/.cabal/bin:/home/folone/node_modules/roy:/home/folone/bin/:/home/folone/bin/play/:/opt/maven/bin/:/home/folone/.cabal/bin:/home/folone/node_modules/roy:/home/folone/bin/:/home/folone/bin/play/:$SCALA_HOME:/home/folone/bin/
+export TYPELEVEL_HOME=/home/folone/bin/typelevel-repl
+export PATH=/home/folone/perl5/bin:/home/folone/perl5/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:/opt/qt/bin:/opt/maven/bin/:/home/folone/.cabal/bin:/home/folone/node_modules/roy:/home/folone/bin/:/home/folone/bin/play/:/opt/maven/bin/:/home/folone/.cabal/bin:/home/folone/node_modules/roy:/home/folone/bin/:/home/folone/bin/play/:$SCALA_HOME:/home/folone/bin/:$TYPELEVEL_HOME
 export EDITOR=emacs
