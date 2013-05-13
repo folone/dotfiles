@@ -1,3 +1,6 @@
 [submodule ".emacs.d"]
 	path = .emacs.d
 	url = git@github.com:folone/.emacs.git
+[submodule "bin/typelevel-repl"]
+	path = bin/typelevel-repl
+	url = git@github.com:folone/typelevel-repl.git
