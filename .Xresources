@@ -20,7 +20,7 @@ URxvt*foreground:				grey80
 URxvt*borderLess:				false
 URxvt*depth:					32
 URxvt*scrollBar_right:				true
-URxvt*font:					xft:DejaVu Sans Mono-8.5
+URxvt*font:					xft:Terminus:size=9
 URxvt*cursorBlink:				true
 URxvt*cursorUnderline:				true
 URxvt*scrollColor:				#111111
