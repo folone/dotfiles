@@ -1,5 +1,5 @@
 !! fonts
-Xft.dpi:			86
+Xft.dpi:			96
 Xft.antialias:      		true
 Xft.autohint:			false
 Xft.hinting:			true
@@ -9,6 +9,52 @@ Xft.rgba:           		rgb
 ! lcdnone, lcddefault, lcdlight, lcdlegacy
 Xft.lcdfilter:			lcddefault
 Xcursor.theme:			DMZ-Black
+
+
+!-------------------------------------------------------------------------------
+!
+!	U R X V T - Settings
+!
+URxvt*geometry:					80x25
+URxvt*foreground:				grey80
+URxvt*borderLess:				false
+URxvt*depth:					32
+URxvt*scrollBar_right:				true
+URxvt*font:					xft:DejaVu Sans Mono-8.5
+URxvt*cursorBlink:				true
+URxvt*cursorUnderline:				true
+URxvt*scrollColor:				#111111
+!URxvt*perl-ext-common:				default,clipboard
+
+!colors
+!black
+URxvt*color0:					#676767
+URxvt*color8:					#757575
+!red
+URxvt*color1:					#DB5656
+URxvt*color9:					#FF7272
+!green
+URxvt*color2:					#ABCB8D
+URxvt*color10:					#AFD78A
+!yellow
+URxvt*color3:					#E8AE5B
+URxvt*color11:					#FFA75D
+!blue
+URxvt*color4:					#71C5F4
+URxvt*color12:					#67CDE9
+!magenta
+URxvt*color5:					#E2BAF1
+URxvt*color13:					#ECAEE9
+!cyan
+URxvt*color6:					#21F1EA
+URxvt*color14:					#36FFFC
+!white
+URxvt*color7:					#F1F1F1
+URxvt*color15:					#FFFFFF
+
+urxvt.borderless:        			true 
+URxvt.background:				#262626
+
 
 !! urxvt
 URxvt.termName:			rxvt
@@ -21,7 +67,6 @@ urxvt.urgentOnBell:     	true
 URxvt.pointerBlank:		true
 URxvt*altSendsEscape: 		true
 
-URxvt.font:             	xft:Terminus:size=9
 URxvt.iconFile:			~/.icons/terminal.png
 URxvt.scrollBar:		false
 URxvt.scrollstyle:		plain
@@ -35,20 +80,17 @@ URxvt.perl-ext-common:		default,tabbed
 URxvt.colorUL:			#6da4f2
 URxvt.underlineColor:		#6da4f2
 
-URxvt.background:		#262626
 URxvt.foreground:		#dedede
 URxvt.cursorColor:		#dedede
 
 URxvt.color0:			#262626
 URxvt.color8:			#555555
-URxvt.color1:			#a42929
-URxvt.color9:			#ef4545
+URxvt.color1:			#A34949
+URxvt.color9:			#F26666
 URxvt.color2:			#4e9a06
 URxvt.color10:			#8ae234
 URxvt.color3:			#c4a000
 URxvt.color11:			#fce94f
-URxvt.color4:			#204a87
-URxvt.color12:			#729fcf
 URxvt.color5:			#5c3566
 URxvt.color13:			#ad7fa8
 URxvt.color6:			#00a6a6
