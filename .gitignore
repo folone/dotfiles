@@ -1,17 +1,1 @@
 *
-
-!.*/
-!.xmonad/*.hs
-!.zshrc
-!.xinitrc
-!.Xresources
-!.bin
-!.conkyrc
-!.*/*/
-!.config/taffybar/*.hs
-!*/
-!bin/*
-bin/dm_install.sh
-.oh-my-zsh/
-!.gitignore
-!.etc/
