@@ -75,7 +75,7 @@ URxvt.scrollBar_right:		true
 !URxvt.perl-ext-common:  	default,matcher,clipboard
 URxvt.matcher.button: 		1
 URxvt.urlLauncher:      	chromium
-URxvt.perl-ext-common:		default,tabbed
+URxvt.perl-ext-common:		default,tabbedex
 
 URxvt.colorUL:			#6da4f2
 URxvt.underlineColor:		#6da4f2
