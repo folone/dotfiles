@@ -14,4 +14,5 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 xcompmgr -c &
 xrdb -merge .Xresources &
 xsetroot -cursor_name left_ptr &
+setxkbmap -option ctrl:nocaps &
 exec xmonad
