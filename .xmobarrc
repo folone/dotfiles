@@ -1,5 +1,5 @@
 Config {
-         font="xft:Terminus:size=8"
+         font="xft:Monospace:size=8"
        , bgColor  = "black"
        , fgColor  = "grey"
        , lowerOnStart = True
