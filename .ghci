@@ -1,0 +1,57 @@
+import Control.Applicative
+import Control.Monad
+import Control.Concurrent
+import Control.Parallel
+
+import Data.String
+import Data.Char
+import Data.List
+import Data.Monoid
+import Control.Monad.IO.Class
+
+:set prompt "λ> "
+
+:set -fno-warn-unused-imports
+:def hlint const . return $ ":! hlint \"src\""
+:def hoogle \s -> return $ ":! hoogle --count=15 \"" ++ s ++ "\""
+:def pl \s -> return $ ":! pointfree \"" ++ s ++ "\""
+
+:set +s
+:set +t
+
+:m + Data.List
+:m + Control.Arrow
+:m + Control.Applicative
+:m + Control.Monad
+:m + Data.List.Split
+:m + Data.Maybe
+:m + Data.Function
+:m + Data.Monoid
+:m + Text.Printf
+
+:set -fwarn-alternative-layout-rule-transitional
+:set -fwarn-deprecated-flags
+:set -fwarn-deprecations
+:set -fwarn-dodgy-exports
+:set -fwarn-dodgy-foreign-imports
+:set -fwarn-dodgy-imports
+:set -fwarn-duplicate-exports
+:set -fwarn-hi-shadowing
+:set -fwarn-incomplete-patterns
+:set -fwarn-incomplete-record-updates
+:set -fwarn-lazy-unlifted-bindings
+:set -fwarn-missing-fields
+:set -fwarn-missing-methods
+:set -fwarn-monomorphism-restriction
+:set -fwarn-name-shadowing
+:set -fwarn-overlapping-patterns
+:set -fwarn-tabs
+:set -fwarn-unrecognised-pragmas
+:set -fwarn-unused-binds
+:set -fwarn-unused-imports
+:set -fwarn-unused-matches
+:set -fwarn-warnings-deprecations
+:set -XUnicodeSyntax
+:set -XOverloadedStrings
+:set -XRankNTypes
+:set -XScopedTypeVariables
