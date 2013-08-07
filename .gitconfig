@@ -23,3 +23,5 @@
 	diffr  = "!f() { git diff "$1"^.."$1"; }; f"
 [pull]
 	rebase = true
+[core]
+	editor = vim
