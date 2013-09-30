@@ -14,3 +14,7 @@ Personal home directory config
   you find yourself struggling with installing it, you may consider
   using xmobar-specific config. Just make a symlink named xmonad.hs to
   the desired config.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/folone/dotfiles/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
