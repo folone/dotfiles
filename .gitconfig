@@ -21,6 +21,7 @@
 	dr  = "!f() { git diff "$1"^.."$1"; }; f"
 	lc  = "!f() { git ll "$1"^.."$1"; }; f"
 	diffr  = "!f() { git diff "$1"^.."$1"; }; f"
+	teleport = push
 [pull]
 	rebase = true
 [core]

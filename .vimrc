@@ -52,6 +52,11 @@
 "=====================================
     syntax on
 
+    execute pathogen#infect()
+    filetype plugin indent on
+
+    "let g:Powerline_symbols = 'fancy'
+
     " Syntax coloring lines that are too long just slows down the world
     set synmaxcol=2048
 
@@ -60,7 +65,7 @@
     " Show the current mode
     set showmode
 
-    set statusline=#%n\ %f\ %y\ %{'['.(&fenc!=''?&fenc:&enc).':'.']'}\ %m\ %r\ %=%l,%c/%L
+    "set statusline=#%n\ %f\ %y\ %{'['.(&fenc!=''?&fenc:&enc).':'.']'}\ %m\ %r\ %=%l,%c/%L
 
     " Show the current command in the lower right corner
     set showcmd
@@ -225,7 +230,7 @@
 "=====================================
 " GVIM SETTINGS
 "=====================================
-    set guifont=Terminus\ 8
+    set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 8
     set guioptions=ac
 
 "=====================================
