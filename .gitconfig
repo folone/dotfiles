@@ -28,3 +28,5 @@
 	editor = vim
 [help]
 	autocorrect = 1
+[color]
+	ui = true
