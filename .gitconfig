@@ -30,3 +30,6 @@
 	autocorrect = 1
 [color]
 	ui = true
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f

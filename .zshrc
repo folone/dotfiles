@@ -47,5 +47,13 @@ export PATH=/home/folone/perl5/bin:/home/folone/perl5/bin:/usr/local/bin:/usr/bi
 
 # Mac stuff
 export PATH=$PATH:/Applications
+# -lgmp and such
+export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
 
 export EDITOR=emacs
+
+eval "$(rbenv init -)"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/.cabal/bin" # Cabal stuff
+export PATH="$PATH:/usr/texbin" # MacTeX

@@ -39,7 +39,6 @@ import Control.Monad.IO.Class
 :set -fwarn-hi-shadowing
 :set -fwarn-incomplete-patterns
 :set -fwarn-incomplete-record-updates
-:set -fwarn-lazy-unlifted-bindings
 :set -fwarn-missing-fields
 :set -fwarn-missing-methods
 :set -fwarn-monomorphism-restriction
