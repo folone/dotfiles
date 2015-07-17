@@ -7,7 +7,7 @@ ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="norm"
 
-RPROMPT='%{%B%F{green}%}%~%{%f%k%b%}'
+# RPROMPT='%{%B%F{green}%}%~%{%f%k%b%}'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -36,6 +36,14 @@ RPROMPT='%{%B%F{green}%}%~%{%f%k%b%}'
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+
+source "$HOME/.antigen/antigen.zsh"
+
+antigen-use oh-my-zsh
+antigen-bundle arialdomartini/oh-my-git
+antigen theme arialdomartini/oh-my-git-themes arialdo-pathinline
+
+antigen-apply
 
 # My typical linux setup
 export PYTHONPATH=/home/folone/workspace/backend
