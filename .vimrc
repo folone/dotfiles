@@ -137,7 +137,7 @@
     " set word-wrap, not symbol-wrap
     set linebreak
 
-    set colorcolumn=80
+    set colorcolumn=72
 
     " don’t worry, I’m using two spaces like a sane person (http://stevelosh.com/blog/2012/10/why-i-two-space/)
     set cpo+=J
@@ -192,7 +192,7 @@
     autocmd FileType xml setlocal expandtab shiftwidth=2 softtabstop=2 foldmethod=syntax
 
     " ingore whitespaces (vimdiff)
-    set diffopt+=iwhite " ignore whitespaces
+    " set diffopt+=iwhite " ignore whitespaces
 
     " highlight trailing spaces
     set list!

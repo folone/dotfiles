@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="norm"
+# ZSH_THEME="norm"
 
 # RPROMPT='%{%B%F{green}%}%~%{%f%k%b%}'
 # Example aliases
@@ -39,11 +39,11 @@ source $ZSH/oh-my-zsh.sh
 
 source "$HOME/.antigen/antigen.zsh"
 
-antigen-use oh-my-zsh
-antigen-bundle arialdomartini/oh-my-git
-antigen theme arialdomartini/oh-my-git-themes arialdo-pathinline
+antigen use oh-my-zsh
+antigen bundle arialdomartini/oh-my-git
+antigen theme cypher
 
-antigen-apply
+antigen apply
 
 # My typical linux setup
 export PYTHONPATH=/home/folone/workspace/backend
@@ -58,10 +58,15 @@ export PATH=$PATH:/Applications
 # -lgmp and such
 export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
 
-export EDITOR=emacs
-
-eval "$(rbenv init -)"
+export EDITOR=vim
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.cabal/bin" # Cabal stuff
 export PATH="$PATH:/usr/texbin" # MacTeX
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin" # VScode
+export PATH="$PATH:/Library/TeX/texbin/" # LaTeX
+
+source "$HOME/.cargo/env"
+
+export EE_PANTS_DAEMON_BETA=1
+
