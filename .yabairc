@@ -1,15 +1,8 @@
 #!/usr/bin/env sh
 
 # bar settings
-yabai -m config status_bar                   on
-yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
-yabai -m config status_bar_icon_font         "Font Awesome 5 Free:Solid:12.0"
-yabai -m config status_bar_background_color  0xff202020
-yabai -m config status_bar_foreground_color  0xffa8a8a8
-yabai -m config status_bar_space_icon_strip  ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ # α β γ δ ε ζ η θ ι
-yabai -m config status_bar_power_icon_strip   
-yabai -m config status_bar_space_icon        
-yabai -m config status_bar_clock_icon        
+SPACEBAR_HEIGHT=$(spacebar -m config height)
+yabai -m config external_bar all:$SPACEBAR_HEIGHT:0
 
 # global settings
 yabai -m config mouse_follows_focus          off
