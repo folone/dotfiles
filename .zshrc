@@ -37,7 +37,7 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source "$HOME/.antigen/antigen.zsh"
+source "$(brew --prefix)/share/antigen/antigen.zsh"
 
 antigen use oh-my-zsh
 antigen bundle arialdomartini/oh-my-git
@@ -66,7 +66,7 @@ export PATH="$PATH:/usr/texbin" # MacTeX
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin" # VScode
 export PATH="$PATH:/Library/TeX/texbin/" # LaTeX
 
-source "$HOME/.cargo/env"
+#source "$HOME/.cargo/env"
 
 export EE_PANTS_DAEMON_BETA=1
 
