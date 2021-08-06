@@ -1,1 +1,0 @@
-/home/folone/.xmonad/xmonad.xmobar.hs
