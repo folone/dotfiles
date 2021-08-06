@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    runs-on: "ubuntu-18.04"
+
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Setup git env
+        run: |
+          git config --global user.email "bot@scalameta.org"
+          git config --global user.name "Scalameta bot"
+      - uses: actions/checkout@v2
+      - name: Get the tag version
+        id: get_version
+        run: echo ::set-output name=NEW_VERSION::${GITHUB_REF#refs/tags/v}
+      - run: yarn install
+      - run: |
+          yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.NEW_VERSION
+          }}
+      - name: Generate changelog
+        run: |
+          npx github-changes -b main -o scalameta -r metals-vscode --no-merges -t "VSCode Extension Changelog" -k ${{ secrets.GITHUB_TOKEN }}
+          sed -i '1i Check out the Metals release notes at [https://scalameta.org/metals/blog/](https://scalameta.org/metals/blog/)\n' CHANGELOG.md
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "v${{ steps.get_version.outputs.NEW_VERSION }}"
+      - name: Push changes
+        run: git push origin HEAD:main
+      - name: Publish extension
+        run: yarn vscode:publish -p ${{ secrets.VS_MARKETPLACE_TOKEN }}
+      - name: Build VSIX package
+        run: yarn build
+      - name: Get upload url
+        id: get_upload_url
+        run: |
+          URL=$(curl --silent "https://api.github.com/repos/scalameta/metals-vscode/releases/latest" | jq -r '.upload_url')
+          echo ::set-output name=UPLOAD_URL::$URL
+      - name: Upload VSIX package to release
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_upload_url.outputs.UPLOAD_URL }}
+          asset_path: ./metals-${{ steps.get_version.outputs.NEW_VERSION }}.vsix
+          asset_name: |
+            scalameta.metals-${{ steps.get_version.outputs.NEW_VERSION }}.vsix
+          asset_content_type: application/octet-stream
+      - name: Publish on Open VSX
+        id: open_vsx
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_TOKEN }}
+        run: |
+          yarn ovsx:publish --pat $OVSX_PAT ./metals-${{ steps.get_version.outputs.NEW_VERSION }}.vsix
