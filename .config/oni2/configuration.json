@@ -1,4 +1,5 @@
 {
+  "git.ignoreLimitWarning": true,
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "editor.detectIndentation": true,
   "editor.fontFamily": "JetBrainsMono-Regular.ttf",
