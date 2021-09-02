@@ -26,4 +26,5 @@ curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 # Prompt user to finish the installation
 echo 'Finish the installation:'
 echo '* https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection'
+echo '* create spaces as described in https://support.apple.com/en-gb/guide/mac-help/mh14112/mac'
 # Add more manual steps here
