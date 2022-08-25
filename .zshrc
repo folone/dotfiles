@@ -37,7 +37,7 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source "$(brew --prefix)/share/antigen/antigen.zsh"
+source /usr/local/share/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 antigen bundle arialdomartini/oh-my-git
@@ -70,3 +70,5 @@ export PATH="$PATH:/Library/TeX/texbin/" # LaTeX
 
 export EE_PANTS_DAEMON_BETA=1
 
+# Automatically placed at end of file by MDE. To disable this behavior: touch ~/.no-mde-dotfile. Ideally you do not need to do this. Please contact us on Slack at #mde-contributors to discuss long-term alternatives.
+source /opt/twitter_mde/etc/zshrc

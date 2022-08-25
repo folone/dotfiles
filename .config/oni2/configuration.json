@@ -1,4 +1,6 @@
 {
+  "ui.zoom": 1.0,
+  "tabnine.experimentalAutoImports": true,
   "git.ignoreLimitWarning": true,
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "editor.detectIndentation": true,
