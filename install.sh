@@ -34,7 +34,7 @@ mkdir -p ~/.vim/autoload ~/.vim/bundle && \
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 # Set up useful aliases
-arc alias lazydiff diff -- --nolint --nounit --excuse "Skipping linting for speed"
+#arc alias lazydiff diff -- --nolint --nounit --excuse "Skipping linting for speed"
 
 # Prompt user to finish the installation
 echo 'Finish the installation:'
