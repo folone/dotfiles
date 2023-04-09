@@ -35,23 +35,17 @@ ZSH=$HOME/.oh-my-zsh
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git)
 
+export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH
+
 source $ZSH/oh-my-zsh.sh
 
-source /usr/local/share/antigen/antigen.zsh
+source /opt/homebrew/share/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 antigen bundle arialdomartini/oh-my-git
 antigen theme cypher
 
 antigen apply
-
-# My typical linux setup
-export PYTHONPATH=/home/folone/workspace/backend
-export SCALA_HOME=/usr/bin/scala/
-export ANT_OPTS="-Xms1536m -Xmx1536m -XX:PermSize=1024m -XX:MaxPermSize=2048m"
-#export SBT_OPTS=$ANT_OPTS
-export TYPELEVEL_HOME=/home/folone/bin/typelevel-repl
-export PATH=/home/folone/perl5/bin:/home/folone/perl5/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:/opt/qt/bin:/opt/maven/bin/:/home/folone/.cabal/bin:/home/folone/node_modules/roy:/home/folone/bin/:/home/folone/bin/play/:/opt/maven/bin/:/home/folone/.cabal/bin:/home/folone/node_modules/roy:/home/folone/bin/:/home/folone/bin/play/:$SCALA_HOME:/home/folone/bin/:$TYPELEVEL_HOME
 
 # Mac stuff
 export PATH=$PATH:/Applications
@@ -65,7 +59,3 @@ export PATH="$PATH:$HOME/.cabal/bin" # Cabal stuff
 export PATH="$PATH:/usr/texbin" # MacTeX
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin" # VScode
 export PATH="$PATH:/Library/TeX/texbin/" # LaTeX
-
-#source "$HOME/.cargo/env"
-
-source /opt/homebrew/share/antigen/antigen.zsh
