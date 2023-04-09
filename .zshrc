@@ -68,7 +68,4 @@ export PATH="$PATH:/Library/TeX/texbin/" # LaTeX
 
 #source "$HOME/.cargo/env"
 
-export EE_PANTS_DAEMON_BETA=1
-
-# Automatically placed at end of file by MDE. To disable this behavior: touch ~/.no-mde-dotfile. Ideally you do not need to do this. Please contact us on Slack at #mde-contributors to discuss long-term alternatives.
-source /opt/twitter_mde/etc/zshrc
+source /opt/homebrew/share/antigen/antigen.zsh
