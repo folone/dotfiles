@@ -35,7 +35,7 @@ ZSH=$HOME/.oh-my-zsh
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git)
 
-export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH
+export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/Users/george.leontiev/workspace/venv/bin:$PATH
 
 source $ZSH/oh-my-zsh.sh
 
@@ -43,7 +43,7 @@ source /opt/homebrew/share/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 antigen bundle arialdomartini/oh-my-git
-antigen theme cypher
+antigen theme cloud
 
 antigen apply
 
@@ -59,3 +59,8 @@ export PATH="$PATH:$HOME/.cabal/bin" # Cabal stuff
 export PATH="$PATH:/usr/texbin" # MacTeX
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin" # VScode
 export PATH="$PATH:/Library/TeX/texbin/" # LaTeX
+
+export AWS_SDK_LOAD_CONFIG=true
+export GOPRIVATE=github.snooguts.net
+export SNOODEV_DIR=~/workspace/snoodev
+autoload -U compinit; compinit

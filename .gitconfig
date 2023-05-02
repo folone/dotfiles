@@ -3,10 +3,12 @@
 [user]
 	email = george.leontiev@reddit.com
 	name = George Leontiev
+[url "git@github.snooguts.net:"]
+	insteadOf = https://github.snooguts.net/
 [push]
 	default = simple
 [github]
-	user = folone
+	user = george-leontiev
 [alias]
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
 	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
