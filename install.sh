@@ -20,6 +20,7 @@ brew install antigen
 brew install gnupg
 brew install cmacrae/formulae/spacebar
 brew install koekeishiya/formulae/yabai
+brew install koekeishiya/formulae/skhd
 
 # Iterm2
 brew install --cask iterm2
