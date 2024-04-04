@@ -54,6 +54,7 @@ export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
 
 export EDITOR=vim
 
+export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.cabal/bin" # Cabal stuff
 export PATH="$PATH:/usr/texbin" # MacTeX
@@ -64,3 +65,4 @@ export AWS_SDK_LOAD_CONFIG=true
 export GOPRIVATE=github.snooguts.net
 export SNOODEV_DIR=~/workspace/snoodev
 autoload -U compinit; compinit
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
