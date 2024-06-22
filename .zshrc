@@ -11,6 +11,7 @@ ZSH=$HOME/.oh-my-zsh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias vsc="code --disable-renderer-accessibility --disable-gpu"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"

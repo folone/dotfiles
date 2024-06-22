@@ -7,6 +7,7 @@
 	insteadOf = https://github.snooguts.net/
 [push]
 	default = simple
+	autoSetupRemote = true
 [github]
 	user = george-leontiev
 [alias]
@@ -38,3 +39,5 @@
 	smudge = git-media-smudge %f
 [merge]
 	tool = opendiff
+[commit]
+	gpgsign = false
