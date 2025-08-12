@@ -68,10 +68,14 @@ sketchybar --add item wifi right \
 
 sketchybar --add item volume right \
            --set volume script="~/.config/sketchybar/scripts/volume.sh" \
-                       update_freq=10 \
+                       update_freq=0 \
                        icon= \
                        icon.padding_left=6 \
-                       icon.padding_right=6
+                       icon.padding_right=6 \
+           --subscribe volume volume_change system_woke
+
+# Background watcher to trigger volume_change events (polls system volume)
+(~/.config/sketchybar/scripts/volume_watcher.sh &)
 
 sketchybar --add item battery right \
            --set battery script="~/.config/sketchybar/scripts/battery.sh" \
