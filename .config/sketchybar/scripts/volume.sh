@@ -8,11 +8,11 @@ LABEL="${VOL}%"
 ICON_COLOR=0xffcdd6f4
 
 if [ "$MUTED" = "true" ] || [ "${VOL}" = "0" ]; then
-  ICON=
-  LABEL=""
-  ICON_COLOR=0xff6c7086 # muted/disabled gray
+	ICON=
+	LABEL=""
+	ICON_COLOR=0xff6c7086 # muted/disabled gray
 elif [ "$VOL" -lt 30 ]; then
-  ICON=
+	ICON=
 fi
 
 TARGET_ITEM=${NAME:-volume}
