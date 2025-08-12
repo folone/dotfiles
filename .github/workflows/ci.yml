@@ -25,8 +25,15 @@ jobs:
           else
             shellcheck -S error install.sh
           fi
-          # Style check (no changes) for shell scripts
-          shfmt -d -s -ci .
+          # Style check (no changes) for our shell scripts only
+          files=( )
+          [ -f install.sh ] && files+=( install.sh )
+          if ls .config/sketchybar/scripts/*.sh >/dev/null 2>&1; then
+            files+=( .config/sketchybar/scripts/*.sh )
+          fi
+          if [ ${#files[@]} -gt 0 ]; then
+            shfmt -d -s -ci "${files[@]}"
+          fi
 
       - name: Validate JSON (Karabiner)
         run: |
