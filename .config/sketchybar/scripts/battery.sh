@@ -3,9 +3,9 @@
 PMSET=$(pmset -g batt)
 # Prefer SketchyBar event info when available for immediate updates
 if [ "${SENDER:-}" = "power_source_change" ] && [ -n "${INFO:-}" ]; then
-  RAW_SOURCE="$INFO"
+	RAW_SOURCE="$INFO"
 else
-  RAW_SOURCE=$(echo "$PMSET" | sed -nE "s/Now drawing from '([^']+)'.*/\1/p")
+	RAW_SOURCE=$(echo "$PMSET" | sed -nE "s/Now drawing from '([^']+)'.*/\1/p")
 fi
 BAT_LINE=$(echo "$PMSET" | awk 'NR==2')
 # Extract percentage robustly
@@ -15,8 +15,8 @@ STATE=$(echo "$BAT_LINE" | sed -nE 's/.*;\s*([^;]+);.*/\1/p' | tr '[:upper:]' '[
 # Normalize power source to AC/Battery
 SOURCE="Battery"
 case "$RAW_SOURCE" in
-  AC*|"Power Adapter"*|"External Power"*) SOURCE="AC";;
-  *) SOURCE="Battery";;
+	AC* | "Power Adapter"* | "External Power"*) SOURCE="AC" ;;
+	*) SOURCE="Battery" ;;
 esac
 
 # Determine icon based on percentage
@@ -32,12 +32,10 @@ LABEL="${P}%"
 
 # Charging detection (exact match), or on AC
 if [ "$STATE" = "charging" ] || [ "$SOURCE" = "AC" ]; then
-  ICON="" # bolt when charging
-  ICON_COLOR="0xffa6e3a1" # green
+	ICON=""                # bolt when charging
+	ICON_COLOR="0xffa6e3a1" # green
 elif [ "$P" -le 20 ]; then
-  ICON_COLOR="0xfff38ba8" # red on low battery
+	ICON_COLOR="0xfff38ba8" # red on low battery
 fi
 TARGET_ITEM=${NAME:-battery}
 sketchybar --set "$TARGET_ITEM" icon="$ICON" icon.color="$ICON_COLOR" label="$LABEL"
-
-

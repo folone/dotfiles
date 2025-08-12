@@ -5,6 +5,10 @@
 !/.gitignore
 !/Brewfile
 !/install.sh
+!/.github
+!/.github/**
+!/scripts
+!/scripts/**
 
 # Root-level configs to keep
 !/.yabairc

@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install tooling (shellcheck, shfmt, stylua, jq)
+        run: |
+          set -euo pipefail
+          export HOMEBREW_NO_AUTO_UPDATE=1
+          brew install shellcheck shfmt stylua jq
+
+      - name: Lint shell scripts
+        run: |
+          set -euo pipefail
+          if ls .config/sketchybar/scripts/*.sh >/dev/null 2>&1; then
+            shellcheck -S error install.sh .config/sketchybar/scripts/*.sh
+          else
+            shellcheck -S error install.sh
+          fi
+          # Style check (no changes) for shell scripts
+          shfmt -d -s -ci .
+
+      - name: Validate JSON (Karabiner)
+        run: |
+          set -euo pipefail
+          if [ -f .config/karabiner/karabiner.json ]; then
+            jq -e . .config/karabiner/karabiner.json >/dev/null
+          fi
+
+      - name: Check Neovim Lua format (stylua)
+        run: |
+          set -euo pipefail
+          if [ -d .config/nvim ]; then
+            stylua --check .config/nvim
+          fi
+
+      - name: Installer dry-run
+        run: |
+          set -euo pipefail
+          chmod +x install.sh
+          ./install.sh --dry-run
+
+      - name: Brewfile sanity check
+        run: |
+          set -euo pipefail
+          brew bundle check --file=Brewfile || true
+
+
