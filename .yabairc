@@ -48,4 +48,10 @@ yabai -m rule --add app="^Raycast$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^Spotify$" space=9
 
+# Launch placement rules
+# Slack -> space 2
+yabai -m rule --add app="^Slack$" space=2
+# Kitty terminal -> space 7
+yabai -m rule --add app="^kitty$" space=7
+
 echo "yabai configuration loaded.."
