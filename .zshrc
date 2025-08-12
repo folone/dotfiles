@@ -53,7 +53,7 @@ export PATH=$PATH:/Applications
 # -lgmp and such
 export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
 
-export EDITOR=vim
+export EDITOR=nvim
 
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

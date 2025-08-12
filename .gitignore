@@ -3,6 +3,8 @@
 
 # Keep this file
 !/.gitignore
+!/Brewfile
+!/install.sh
 
 # Root-level configs to keep
 !/.yabairc
@@ -21,6 +23,8 @@
 !/.config/kitty
 !/.config/kitty/kitty.conf
 !/.config/starship.toml
+!/.config/nvim
+!/.config/nvim/**
 !/.config/spacebar/spacebarrc
 !/.config/htop/htoprc
 !/.config/oni2/configuration.json

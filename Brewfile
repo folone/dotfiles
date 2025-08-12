@@ -1,0 +1,19 @@
+tap "koekeishiya/formulae"
+tap "FelixKratz/formulae"
+
+brew "rg"
+brew "htop"
+brew "tig"
+brew "antigen"
+brew "gnupg"
+brew "fd"
+brew "neovim"
+brew "koekeishiya/formulae/yabai"
+brew "koekeishiya/formulae/skhd"
+brew "FelixKratz/formulae/sketchybar"
+brew "starship"
+
+cask "kitty"
+cask "font-jetbrains-mono-nerd-font"
+cask "iterm2"
+
