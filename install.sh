@@ -105,26 +105,26 @@ link scripts/apply_theme.sh scripts/apply_theme.sh
 
 # Install LaunchAgent plist (validated)
 install_launchd() {
-  src="$THIS_DIR/launchd/local.theme-watcher.plist"
-  dst="$HOME/Library/LaunchAgents/local.theme-watcher.plist"
-  if [ "$DRY_RUN" -eq 1 ]; then
-    echo "+ mkdir -p $(dirname "$dst")"
-    echo "+ cp \"$src\" \"$dst\""
-    echo "+ chmod 644 \"$dst\""
-    echo "+ plutil -lint \"$dst\""
-  else
-    mkdir -p "$(dirname "$dst")"
-    # If src and dst refer to the same file (including symlink to src), skip copy to avoid cp error
-    if [ -e "$dst" ] && [ "$src" -ef "$dst" ]; then
-      echo "Skip installing LaunchAgent (source equals destination): $dst"
-    else
-      # Remove an existing symlink first to avoid BSD cp 'are identical' exit
-      if [ -L "$dst" ]; then rm -f "$dst"; fi
-      cp "$src" "$dst"
-    fi
-    chmod 644 "$dst" || true
-    plutil -lint "$dst"
-  fi
+	src="$THIS_DIR/launchd/local.theme-watcher.plist"
+	dst="$HOME/Library/LaunchAgents/local.theme-watcher.plist"
+	if [ "$DRY_RUN" -eq 1 ]; then
+		echo "+ mkdir -p $(dirname "$dst")"
+		echo "+ cp \"$src\" \"$dst\""
+		echo "+ chmod 644 \"$dst\""
+		echo "+ plutil -lint \"$dst\""
+	else
+		mkdir -p "$(dirname "$dst")"
+		# If src and dst refer to the same file (including symlink to src), skip copy to avoid cp error
+		if [ -e "$dst" ] && [ "$src" -ef "$dst" ]; then
+			echo "Skip installing LaunchAgent (source equals destination): $dst"
+		else
+			# Remove an existing symlink first to avoid BSD cp 'are identical' exit
+			if [ -L "$dst" ]; then rm -f "$dst"; fi
+			cp "$src" "$dst"
+		fi
+		chmod 644 "$dst" || true
+		plutil -lint "$dst"
+	fi
 }
 install_launchd
 
@@ -161,24 +161,24 @@ fi
 # 6b) Theme watcher (Light/Dark auto)
 title "Configuring theme watcher"
 if [ "$DRY_RUN" -eq 1 ]; then
-  echo "+ chmod +x \"$HOME/scripts/apply_theme.sh\""
-  echo "+ launchctl bootout gui/$(id -u) local.theme-watcher || true"
-  echo "+ launchctl bootstrap gui/$(id -u) \"$HOME/Library/LaunchAgents/local.theme-watcher.plist\""
-  echo "+ launchctl enable gui/$(id -u)/local.theme-watcher"
-  echo "+ launchctl kickstart -k gui/$(id -u)/local.theme-watcher"
-  echo "+ zsh -lc \"$HOME/scripts/apply_theme.sh\""
+	echo "+ chmod +x \"$HOME/scripts/apply_theme.sh\""
+	echo "+ launchctl bootout gui/$(id -u) local.theme-watcher || true"
+	echo "+ launchctl bootstrap gui/$(id -u) \"$HOME/Library/LaunchAgents/local.theme-watcher.plist\""
+	echo "+ launchctl enable gui/$(id -u)/local.theme-watcher"
+	echo "+ launchctl kickstart -k gui/$(id -u)/local.theme-watcher"
+	echo "+ zsh -lc \"$HOME/scripts/apply_theme.sh\""
 else
-  chmod +x "$HOME/scripts/apply_theme.sh" || true
-  launchctl bootout gui/"$(id -u)" local.theme-watcher >/dev/null 2>&1 || true
-  if ! launchctl bootstrap gui/"$(id -u)" "$HOME/Library/LaunchAgents/local.theme-watcher.plist"; then
-    # Fallback for older macOS
-    launchctl unload -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" >/dev/null 2>&1 || true
-    launchctl load -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" || true
-  else
-    launchctl enable gui/"$(id -u)"/local.theme-watcher || true
-    launchctl kickstart -k gui/"$(id -u)"/local.theme-watcher || true
-  fi
-  zsh -lc "$HOME/scripts/apply_theme.sh" || true
+	chmod +x "$HOME/scripts/apply_theme.sh" || true
+	launchctl bootout gui/"$(id -u)" local.theme-watcher >/dev/null 2>&1 || true
+	if ! launchctl bootstrap gui/"$(id -u)" "$HOME/Library/LaunchAgents/local.theme-watcher.plist"; then
+		# Fallback for older macOS
+		launchctl unload -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" >/dev/null 2>&1 || true
+		launchctl load -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" || true
+	else
+		launchctl enable gui/"$(id -u)"/local.theme-watcher || true
+		launchctl kickstart -k gui/"$(id -u)"/local.theme-watcher || true
+	fi
+	zsh -lc "$HOME/scripts/apply_theme.sh" || true
 fi
 
 # 7) Post-install notes
