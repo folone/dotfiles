@@ -94,9 +94,32 @@ link .ghci .ghci || true
 
 link .config/sketchybar .config/sketchybar
 link .config/kitty/kitty.conf .config/kitty/kitty.conf
+link .config/kitty/theme-light.conf .config/kitty/theme-light.conf
+link .config/kitty/theme-dark.conf .config/kitty/theme-dark.conf
 link .config/starship.toml .config/starship.toml
 link .config/karabiner/karabiner.json .config/karabiner/karabiner.json || true
 link .config/nvim .config/nvim
+
+# Theme watcher files
+link scripts/apply_theme.sh scripts/apply_theme.sh
+
+# Install LaunchAgent plist (validated)
+install_launchd() {
+  src="$THIS_DIR/launchd/local.theme-watcher.plist"
+  dst="$HOME/Library/LaunchAgents/local.theme-watcher.plist"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    echo "+ mkdir -p $(dirname "$dst")"
+    echo "+ cp \"$src\" \"$dst\""
+    echo "+ chmod 644 \"$dst\""
+    echo "+ plutil -lint \"$dst\""
+  else
+    mkdir -p "$(dirname "$dst")"
+    cp "$src" "$dst"
+    chmod 644 "$dst" || true
+    plutil -lint "$dst"
+  fi
+}
+install_launchd
 
 # 6) Start services
 title "Starting services"
@@ -128,6 +151,29 @@ if command -v sketchybar >/dev/null 2>&1; then
 	fi
 fi
 
+# 6b) Theme watcher (Light/Dark auto)
+title "Configuring theme watcher"
+if [ "$DRY_RUN" -eq 1 ]; then
+  echo "+ chmod +x \"$HOME/scripts/apply_theme.sh\""
+  echo "+ launchctl bootout gui/$(id -u) local.theme-watcher || true"
+  echo "+ launchctl bootstrap gui/$(id -u) \"$HOME/Library/LaunchAgents/local.theme-watcher.plist\""
+  echo "+ launchctl enable gui/$(id -u)/local.theme-watcher"
+  echo "+ launchctl kickstart -k gui/$(id -u)/local.theme-watcher"
+  echo "+ zsh -lc \"$HOME/scripts/apply_theme.sh\""
+else
+  chmod +x "$HOME/scripts/apply_theme.sh" || true
+  launchctl bootout gui/"$(id -u)" local.theme-watcher >/dev/null 2>&1 || true
+  if ! launchctl bootstrap gui/"$(id -u)" "$HOME/Library/LaunchAgents/local.theme-watcher.plist"; then
+    # Fallback for older macOS
+    launchctl unload -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" >/dev/null 2>&1 || true
+    launchctl load -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" || true
+  else
+    launchctl enable gui/"$(id -u)"/local.theme-watcher || true
+    launchctl kickstart -k gui/"$(id -u)"/local.theme-watcher || true
+  fi
+  zsh -lc "$HOME/scripts/apply_theme.sh" || true
+fi
+
 # 7) Post-install notes
 title "Post-install steps"
 cat <<'EOS'
@@ -138,6 +184,12 @@ cat <<'EOS'
 - Create Mission Control spaces as you like (we label them α β γ δ ε ζ η θ ι)
 - Hide Menu Bar and Dock (System Settings) for a clean look
 - Set your terminal font to “JetBrainsMono Nerd Font”
+
+- Automatic Light/Dark theme:
+  - The theme watcher writes the current mode to ~/.theme and notifies apps
+  - Kitty theme switching looks for:
+    - ~/.config/kitty/theme-light.conf
+    - ~/.config/kitty/theme-dark.conf
 
 Tip: Kitty is installed. Launch with: open -na "Kitty" (or ⌥ + enter as configured by skhd)
 EOS

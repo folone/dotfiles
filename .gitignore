@@ -1,3 +1,13 @@
+# Local state
+.DS_Store
+
+# Theme watcher artifacts
+.theme
+Library/Logs/theme-watcher.log
+
+# User-host-only LaunchAgents should live under repo path launchd/, not in $HOME
+Library/LaunchAgents/local.theme-watcher.plist
+
 # Ignore everything by default
 *
 
@@ -10,6 +20,10 @@
 !/.github/**
 !/scripts
 !/scripts/**
+
+# Include launchd plists stored in the repo
+!/launchd
+!/launchd/**
 
 # Root-level configs to keep
 !/.yabairc
@@ -27,6 +41,9 @@
 !/.config/sketchybar/**
 !/.config/kitty
 !/.config/kitty/kitty.conf
+!/.config/kitty/theme-light.conf
+!/.config/kitty/theme-dark.conf
+!/.config/kitty/theme.conf
 !/.config/starship.toml
 !/.config/nvim
 !/.config/nvim/**

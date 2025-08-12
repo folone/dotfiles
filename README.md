@@ -73,6 +73,15 @@ Kitty shortcuts:
 
 ### Neovim
 
+### Auto Light/Dark theme
+
+- A small LaunchAgent watches macOS appearance and runs `~/scripts/apply_theme.sh`.
+- The script writes the current mode to `~/.theme` and triggers a `sketchybar` `theme_change` event (falls back to `--reload`).
+- Kitty live-switching is supported if you provide:
+  - `~/.config/kitty/theme-light.conf`
+  - `~/.config/kitty/theme-dark.conf`
+- Add more actions by creating an executable `~/scripts/on_theme_change.sh` which will receive `light` or `dark` as its first arg.
+
 - Config: `~/.config/nvim/init.lua` (lazy.nvim, LSP, Treesitter, Telescope, gitsigns, lualine, Catppuccin)
 - Common keys:
   - Space+ff: find files

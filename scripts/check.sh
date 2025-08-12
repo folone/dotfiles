@@ -11,20 +11,26 @@ if ! have jq; then brew install jq; fi
 if ! have stylua; then brew install stylua; fi
 
 echo '==> Shell lint'
+lint_files=( install.sh )
 if ls .config/sketchybar/scripts/*.sh >/dev/null 2>&1; then
-  shellcheck -S error install.sh .config/sketchybar/scripts/*.sh
-else
-  shellcheck -S error install.sh
+  lint_files+=( .config/sketchybar/scripts/*.sh )
 fi
+if [ -f scripts/apply_theme.sh ]; then
+  lint_files+=( scripts/apply_theme.sh )
+fi
+shellcheck -S error "${lint_files[@]}"
 
 echo '==> Shell formatting check'
-files=( )
-[ -f install.sh ] && files+=( install.sh )
+fmt_files=( )
+[ -f install.sh ] && fmt_files+=( install.sh )
 if ls .config/sketchybar/scripts/*.sh >/dev/null 2>&1; then
-  files+=( .config/sketchybar/scripts/*.sh )
+  fmt_files+=( .config/sketchybar/scripts/*.sh )
 fi
-if [ ${#files[@]} -gt 0 ]; then
-  shfmt -d -s -ci "${files[@]}"
+if [ -f scripts/apply_theme.sh ]; then
+  fmt_files+=( scripts/apply_theme.sh )
+fi
+if [ ${#fmt_files[@]} -gt 0 ]; then
+  shfmt -d -s -ci "${fmt_files[@]}"
 fi
 
 echo '==> JSON validation (Karabiner)'
