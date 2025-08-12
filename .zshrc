@@ -67,3 +67,11 @@ export GOPRIVATE=github.snooguts.net
 export SNOODEV_DIR=~/workspace/snoodev
 autoload -U compinit; compinit
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# opam configuration
+[[ ! -r /Users/george.leontiev/.opam/opam-init/init.zsh ]] || source /Users/george.leontiev/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+# Starship prompt (if installed)
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi

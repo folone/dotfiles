@@ -41,3 +41,5 @@
 	tool = opendiff
 [commit]
 	gpgsign = false
+[gpg]
+	program = gpg

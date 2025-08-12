@@ -1,39 +1,51 @@
 #!/usr/bin/env sh
 
-# bar settings
-SPACEBAR_HEIGHT=$(spacebar -m config height)
-yabai -m config external_bar all:$SPACEBAR_HEIGHT:0
+# External bar (sketchybar) height. Set fixed height to avoid spacebar dependency
+yabai -m config external_bar all:36:0
 
-# global settings
+# Global behavior
 yabai -m config mouse_follows_focus          off
 yabai -m config focus_follows_mouse          off
 yabai -m config window_placement             second_child
 yabai -m config window_topmost               off
 yabai -m config window_opacity               off
-yabai -m config window_opacity_duration      0.0
+yabai -m config window_opacity_duration      0.00
 yabai -m config window_shadow                on
-yabai -m config window_border                off
+
+# Borders / aesthetics (works best with scripting addition enabled)
+yabai -m config window_border                on
 yabai -m config window_border_placement      inset
 yabai -m config window_border_width          4
 yabai -m config window_border_radius         -1.0
 yabai -m config active_window_border_topmost off
-yabai -m config active_window_border_color   0xff775759
-yabai -m config normal_window_border_color   0xff505050
-yabai -m config insert_window_border_color   0xffd75f5f
+yabai -m config active_window_border_color   0xff89b4fa # Catppuccin blue
+yabai -m config normal_window_border_color   0xff585b70 # Subtle gray
+yabai -m config insert_window_border_color   0xfff38ba8 # Peach
+
 yabai -m config active_window_opacity        1.0
-yabai -m config normal_window_opacity        0.90
+yabai -m config normal_window_opacity        0.95
 yabai -m config split_ratio                  0.50
 yabai -m config auto_balance                 off
+
+# Mouse resize/move with modifier
 yabai -m config mouse_modifier                fn
 yabai -m config mouse_action1                move
 yabai -m config mouse_action2                resize
 
-# general space settings
+# Spaces layout and gaps (Hyprland-like)
 yabai -m config layout                       bsp
-yabai -m config top_padding                  0
-yabai -m config bottom_padding               0
-yabai -m config left_padding                 0
-yabai -m config right_padding                0
-yabai -m config window_gap                   0
+yabai -m config top_padding                  6
+yabai -m config bottom_padding               6
+yabai -m config left_padding                 6
+yabai -m config right_padding                6
+yabai -m config window_gap                   12
+
+# App rules: float annoying dialogs, keep system prefs floating, etc.
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^App Store$" manage=off
+yabai -m rule --add app="^Finder$" title="(Copy|Move|Info|About)" manage=off
+yabai -m rule --add app="^Raycast$" manage=off
+yabai -m rule --add app="^Karabiner-Elements$" manage=off
+yabai -m rule --add app="^Spotify$" space=9
 
 echo "yabai configuration loaded.."

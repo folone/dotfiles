@@ -1,0 +1,93 @@
+#!/usr/bin/env sh
+
+# Minimal Catppuccin-like sketchybar config
+
+BAR_HEIGHT=36
+BAR_COLOR=0xff1e1e2e
+FONT_MAIN="JetBrainsMono Nerd Font:Bold:13.0"
+FONT_ICON="JetBrainsMono Nerd Font:Bold:14.0"
+
+# Bar
+sketchybar --bar height=$BAR_HEIGHT position=top color=$BAR_COLOR corner_radius=8
+
+# Defaults
+sketchybar --default \
+  updates=when_shown \
+  icon.font="$FONT_ICON" \
+  icon.color=0xff89b4fa \
+  label.font="$FONT_MAIN" \
+  label.color=0xffcdd6f4 \
+  background.color=$BAR_COLOR \
+  background.border_color=0xff11111b \
+  background.border_width=1 \
+  background.corner_radius=6
+
+# Spaces 1..9 with Greek labels α β γ δ ε ζ η θ ι
+GREEK=(α β γ δ ε ζ η θ ι)
+INDEX=1
+for glyph in "${GREEK[@]}"; do
+  sketchybar --add space space.$INDEX left \
+             --set space.$INDEX associated_space=$INDEX \
+                                 icon="$glyph" \
+                                 icon.padding_left=6 \
+                                 icon.padding_right=6 \
+                                   icon.highlight=off \
+                                   label.highlight=off \
+                                 label.drawing=off \
+                                  background.drawing=off \
+                                  script="~/.config/sketchybar/scripts/spaces.sh" \
+                                  click_script="yabai -m space --focus $INDEX" \
+           --subscribe space.$INDEX space_change mouse.clicked
+  INDEX=$((INDEX+1))
+done
+
+# Initial highlight
+~/.config/sketchybar/scripts/spaces.sh &> /dev/null
+
+# Front app and window title
+sketchybar --add item front_app left \
+           --set front_app script="~/.config/sketchybar/scripts/front_app.sh" \
+                           icon.drawing=off \
+                           label.padding_left=48 \
+                           label.padding_right=48 \
+           --subscribe front_app front_app_switched
+
+sketchybar --add item title left \
+           --set title script="~/.config/sketchybar/scripts/window_title.sh" \
+                       icon.drawing=off \
+           --subscribe title window_title_changed
+
+# Right side: wifi, volume, battery, clock
+sketchybar --add item wifi right \
+           --set wifi script="~/.config/sketchybar/scripts/wifi.sh" \
+                     update_freq=20 \
+                     icon= \
+                     label.drawing=off \
+                     icon.padding_left=6 \
+                     icon.padding_right=6
+
+sketchybar --add item volume right \
+           --set volume script="~/.config/sketchybar/scripts/volume.sh" \
+                       update_freq=10 \
+                       icon= \
+                       icon.padding_left=6 \
+                       icon.padding_right=6
+
+sketchybar --add item battery right \
+           --set battery script="~/.config/sketchybar/scripts/battery.sh" \
+                        update_freq=10 \
+                        icon= \
+                        icon.padding_left=6 \
+                        icon.padding_right=6 \
+           --subscribe battery system_woke power_source_change
+
+sketchybar --add item clock right \
+           --set clock script="~/.config/sketchybar/scripts/clock.sh" \
+                      update_freq=10 \
+                      icon= \
+                      icon.padding_left=6 \
+                      icon.padding_right=6
+
+echo "sketchybar configuration loaded.."
+
+

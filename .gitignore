@@ -1,1 +1,48 @@
+# Ignore everything by default
 *
+
+# Keep this file
+!/.gitignore
+
+# Root-level configs to keep
+!/.yabairc
+!/.skhdrc
+!/.zshrc
+!/.gitconfig
+!/.ghci
+
+# Allow .config directory, but ignore its contents by default
+!/.config/
+/.config/**
+
+# Include our managed configs
+!/.config/sketchybar
+!/.config/sketchybar/**
+!/.config/kitty
+!/.config/kitty/kitty.conf
+!/.config/starship.toml
+!/.config/spacebar/spacebarrc
+!/.config/htop/htoprc
+!/.config/oni2/configuration.json
+!/.config/oni2/keybindings.json
+!/.config/jgit/config
+!/.config/com.googlecode.iterm2.plist
+
+# Include a single Karabiner file (ignore the rest)
+!/.config/karabiner/
+/.config/karabiner/**
+!/.config/karabiner/karabiner.json
+!/.config/karabiner/assets/
+!/.config/karabiner/assets/**
+
+# Explicitly ignore sensitive/noisy config data
+/.config/raycast/**
+/.config/joplin-desktop/**
+/.config/github-copilot/**
+/.config/gh-copilot/**
+/.config/gh/**
+/.config/oni2/**
+/.config/jgit/**
+/.config/iterm2/**
+/.config/pip/**
+/.config/htop/**
