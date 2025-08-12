@@ -5,6 +5,7 @@
 !/.gitignore
 !/Brewfile
 !/install.sh
+!/README.md
 !/.github
 !/.github/**
 !/scripts
