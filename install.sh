@@ -114,7 +114,14 @@ install_launchd() {
     echo "+ plutil -lint \"$dst\""
   else
     mkdir -p "$(dirname "$dst")"
-    cp "$src" "$dst"
+    # If src and dst refer to the same file (including symlink to src), skip copy to avoid cp error
+    if [ -e "$dst" ] && [ "$src" -ef "$dst" ]; then
+      echo "Skip installing LaunchAgent (source equals destination): $dst"
+    else
+      # Remove an existing symlink first to avoid BSD cp 'are identical' exit
+      if [ -L "$dst" ]; then rm -f "$dst"; fi
+      cp "$src" "$dst"
+    fi
     chmod 644 "$dst" || true
     plutil -lint "$dst"
   fi
