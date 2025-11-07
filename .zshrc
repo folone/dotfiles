@@ -48,6 +48,11 @@ antigen theme cloud
 
 antigen apply
 
+# Override diff function to use -u flag by default
+function diff {
+  command diff --color -u "$@"
+}
+
 # Mac stuff
 export PATH=$PATH:/Applications
 # -lgmp and such
