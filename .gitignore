@@ -47,7 +47,6 @@ Library/LaunchAgents/local.theme-watcher.plist
 !/.config/starship.toml
 !/.config/nvim
 !/.config/nvim/**
-!/.config/com.googlecode.iterm2.plist
 
 # Include a single Karabiner file (ignore the rest)
 !/.config/karabiner/
