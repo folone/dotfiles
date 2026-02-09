@@ -20,20 +20,16 @@ jobs:
       - name: Lint shell scripts
         run: |
           set -euo pipefail
+          lint_files=( install.sh )
           if ls .config/sketchybar/scripts/*.sh >/dev/null 2>&1; then
-            shellcheck -S error install.sh .config/sketchybar/scripts/*.sh
-          else
-            shellcheck -S error install.sh
+            lint_files+=( .config/sketchybar/scripts/*.sh )
           fi
+          if [ -f scripts/apply_theme.sh ]; then
+            lint_files+=( scripts/apply_theme.sh )
+          fi
+          shellcheck -S error "${lint_files[@]}"
           # Style check (no changes) for our shell scripts only
-          files=( )
-          [ -f install.sh ] && files+=( install.sh )
-          if ls .config/sketchybar/scripts/*.sh >/dev/null 2>&1; then
-            files+=( .config/sketchybar/scripts/*.sh )
-          fi
-          if [ ${#files[@]} -gt 0 ]; then
-            shfmt -d -s -ci "${files[@]}"
-          fi
+          shfmt -d -s -ci "${lint_files[@]}"
 
       - name: Validate JSON (Karabiner)
         run: |

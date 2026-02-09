@@ -13,6 +13,7 @@ Library/LaunchAgents/local.theme-watcher.plist
 
 # Keep this file
 !/.gitignore
+!/.gitignore_global
 !/Brewfile
 !/install.sh
 !/README.md
@@ -43,15 +44,9 @@ Library/LaunchAgents/local.theme-watcher.plist
 !/.config/kitty/kitty.conf
 !/.config/kitty/theme-light.conf
 !/.config/kitty/theme-dark.conf
-!/.config/kitty/theme.conf
 !/.config/starship.toml
 !/.config/nvim
 !/.config/nvim/**
-/.config/spacebar/**
-!/.config/htop/htoprc
-!/.config/oni2/configuration.json
-!/.config/oni2/keybindings.json
-!/.config/jgit/config
 !/.config/com.googlecode.iterm2.plist
 
 # Include a single Karabiner file (ignore the rest)
@@ -67,14 +62,4 @@ Library/LaunchAgents/local.theme-watcher.plist
 /.config/github-copilot/**
 /.config/gh-copilot/**
 /.config/gh/**
-/.config/oni2/**
-/.config/jgit/**
-/.config/iterm2/**
 /.config/pip/**
-/.config/htop/**
-
-# Re-include selected configs after broad ignores
-!/.config/oni2/configuration.json
-!/.config/oni2/keybindings.json
-!/.config/jgit/config
-!/.config/com.googlecode.iterm2.plist

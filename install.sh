@@ -90,6 +90,7 @@ link .yabairc .yabairc
 link .skhdrc .skhdrc
 link .zshrc .zshrc
 link .gitconfig .gitconfig
+link .gitignore_global .gitignore_global
 link .ghci .ghci || true
 
 link .config/sketchybar .config/sketchybar
@@ -103,25 +104,19 @@ link .config/nvim .config/nvim
 # Theme watcher files
 link scripts/apply_theme.sh scripts/apply_theme.sh
 
-# Install LaunchAgent plist (validated)
+# Install LaunchAgent plist (substitute __HOME__ placeholder and validate)
 install_launchd() {
 	src="$THIS_DIR/launchd/local.theme-watcher.plist"
 	dst="$HOME/Library/LaunchAgents/local.theme-watcher.plist"
 	if [ "$DRY_RUN" -eq 1 ]; then
 		echo "+ mkdir -p $(dirname "$dst")"
-		echo "+ cp \"$src\" \"$dst\""
+		echo "+ sed 's|__HOME__|$HOME|g' \"$src\" > \"$dst\""
 		echo "+ chmod 644 \"$dst\""
 		echo "+ plutil -lint \"$dst\""
 	else
 		mkdir -p "$(dirname "$dst")"
-		# If src and dst refer to the same file (including symlink to src), skip copy to avoid cp error
-		if [ -e "$dst" ] && [ "$src" -ef "$dst" ]; then
-			echo "Skip installing LaunchAgent (source equals destination): $dst"
-		else
-			# Remove an existing symlink first to avoid BSD cp 'are identical' exit
-			if [ -L "$dst" ]; then rm -f "$dst"; fi
-			cp "$src" "$dst"
-		fi
+		# Render template: replace __HOME__ placeholder with actual home path
+		sed "s|__HOME__|$HOME|g" "$src" >"$dst"
 		chmod 644 "$dst" || true
 		plutil -lint "$dst"
 	fi

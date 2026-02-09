@@ -13,8 +13,11 @@ brew "koekeishiya/formulae/yabai"
 brew "koekeishiya/formulae/skhd"
 brew "FelixKratz/formulae/sketchybar"
 brew "starship"
+brew "jq"
 
 cask "kitty"
 cask "font-jetbrains-mono-nerd-font"
 cask "iterm2"
+cask "karabiner-elements"
+cask "raycast"
 

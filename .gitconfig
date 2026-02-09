@@ -29,7 +29,7 @@
 	rebase = true
 [core]
 	editor = vim
-	excludesfile = /Users/george.leontiev/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [help]
 	autocorrect = 1
 [color]
@@ -43,3 +43,8 @@
 	gpgsign = false
 [gpg]
 	program = gpg
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

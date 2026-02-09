@@ -9,7 +9,7 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>/Users/george.leontiev/scripts/apply_theme.sh</string>
+    <string>__HOME__/scripts/apply_theme.sh</string>
   </array>
 
   <key>RunAtLoad</key>
@@ -20,13 +20,13 @@
 
   <key>WatchPaths</key>
   <array>
-    <string>/Users/george.leontiev/Library/Preferences/.GlobalPreferences.plist</string>
+    <string>__HOME__/Library/Preferences/.GlobalPreferences.plist</string>
   </array>
 
   <key>StandardOutPath</key>
-  <string>/Users/george.leontiev/Library/Logs/theme-watcher.log</string>
+  <string>__HOME__/Library/Logs/theme-watcher.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/george.leontiev/Library/Logs/theme-watcher.log</string>
+  <string>__HOME__/Library/Logs/theme-watcher.log</string>
 </dict>
 </plist>
 
