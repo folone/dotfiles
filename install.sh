@@ -101,8 +101,9 @@ link .config/starship.toml .config/starship.toml
 link .config/karabiner/karabiner.json .config/karabiner/karabiner.json || true
 link .config/nvim .config/nvim
 
-# Theme watcher files
+# Scripts
 link scripts/apply_theme.sh scripts/apply_theme.sh
+link scripts/check.sh scripts/check.sh
 
 # Install LaunchAgent plist (substitute __HOME__ placeholder and validate)
 install_launchd() {
@@ -156,14 +157,17 @@ fi
 # 6b) Theme watcher (Light/Dark auto)
 title "Configuring theme watcher"
 if [ "$DRY_RUN" -eq 1 ]; then
-	echo "+ chmod +x \"$HOME/scripts/apply_theme.sh\""
+	echo "+ chmod +x \"$HOME/scripts/\"*.sh"
+	echo "+ chmod +x \"$HOME/.config/sketchybar/scripts/\"*.sh"
 	echo "+ launchctl bootout gui/$(id -u) local.theme-watcher || true"
 	echo "+ launchctl bootstrap gui/$(id -u) \"$HOME/Library/LaunchAgents/local.theme-watcher.plist\""
 	echo "+ launchctl enable gui/$(id -u)/local.theme-watcher"
 	echo "+ launchctl kickstart -k gui/$(id -u)/local.theme-watcher"
 	echo "+ zsh -lc \"$HOME/scripts/apply_theme.sh\""
 else
-	chmod +x "$HOME/scripts/apply_theme.sh" || true
+	chmod +x "$HOME/scripts/"*.sh || true
+	chmod +x "$HOME/.config/sketchybar/scripts/"*.sh || true
+	chmod +x "$HOME/.config/sketchybar/sketchybarrc" || true
 	launchctl bootout gui/"$(id -u)" local.theme-watcher >/dev/null 2>&1 || true
 	if ! launchctl bootstrap gui/"$(id -u)" "$HOME/Library/LaunchAgents/local.theme-watcher.plist"; then
 		# Fallback for older macOS
