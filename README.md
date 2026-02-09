@@ -2,13 +2,15 @@
 
 Modern, Hyprland-inspired macOS setup with a tiling WM, menu bar, fast terminal, themed prompt, and a batteries-included Neovim config.
 
-### What’s included
+### What's included
 
 - **Window manager**: [yabai](https://github.com/koekeishiya/yabai) + [skhd](https://github.com/koekeishiya/skhd)
 - **Bar**: [sketchybar](https://github.com/FelixKratz/SketchyBar) (spaces with Greek icons, app title, wifi/volume/battery/clock)
 - **Terminal**: [Kitty](https://sw.kovidgoyal.net/kitty/) (Catppuccin theme, Nerd Font)
 - **Prompt**: [Starship](https://starship.rs/) (Catppuccin colors)
 - **Editor**: [Neovim](https://neovim.io/) with lazy.nvim, LSP, Treesitter, Telescope, gitsigns, lualine
+- **Key remapping**: [Karabiner-Elements](https://karabiner-elements.pqrs.org/)
+- **Launcher**: [Raycast](https://www.raycast.com/)
 
 ### Quick start
 
@@ -27,7 +29,7 @@ Dry-run to preview actions:
 
 Notes:
 - Approve Accessibility for `yabai`, `skhd`, and `sketchybar` in System Settings → Privacy & Security → Accessibility.
-- Set your terminal font to “JetBrainsMono Nerd Font”.
+- Set your terminal font to "JetBrainsMono Nerd Font".
 - If you want full yabai features, follow the SIP guidance in the official docs: [Disabling System Integrity Protection](https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection).
 
 ### Keybindings (skhd)
@@ -36,7 +38,7 @@ Notes:
 - Swap windows: Shift+Alt+H/J/K/L
 - Move window to prev/next space (and follow): Ctrl+Alt+H/L
 - Focus space 1..9: Cmd+Alt+1..9
-- Send window to space 1..9 (and follow): Shift+Cmd+1..9
+- Send window to space 1..9 (and follow): Ctrl+Cmd+1..9
 - Focus displays: Ctrl+Alt+P/N
 - Send window to other display: Ctrl+Cmd+P/N
 - Toggle split orientation: Alt+Space
@@ -73,6 +75,14 @@ Kitty shortcuts:
 
 ### Neovim
 
+- Config: `~/.config/nvim/init.lua` (lazy.nvim, LSP, Treesitter, Telescope, gitsigns, lualine, Catppuccin)
+- Plugin versions pinned in `~/.config/nvim/lazy-lock.json`
+- Common keys:
+  - Space+ff: find files
+  - Space+fg: live grep
+  - Space+fb: buffers
+  - Space+fh: help
+
 ### Auto Light/Dark theme
 
 - A small LaunchAgent watches macOS appearance and runs `~/scripts/apply_theme.sh`.
@@ -81,13 +91,6 @@ Kitty shortcuts:
   - `~/.config/kitty/theme-light.conf`
   - `~/.config/kitty/theme-dark.conf`
 - Add more actions by creating an executable `~/scripts/on_theme_change.sh` which will receive `light` or `dark` as its first arg.
-
-- Config: `~/.config/nvim/init.lua` (lazy.nvim, LSP, Treesitter, Telescope, gitsigns, lualine, Catppuccin)
-- Common keys:
-  - Space+ff: find files
-  - Space+fg: live grep
-  - Space+fb: buffers
-  - Space+fh: help
 
 ### CI and local checks
 
@@ -118,10 +121,8 @@ bash scripts/check.sh
 ### Layout and files
 
 Tracked highlights:
-- `~/.yabairc`, `~/.skhdrc`, `~/.zshrc`, `~/.gitconfig`, `~/.ghci`
+- `~/.yabairc`, `~/.skhdrc`, `~/.zshrc`, `~/.gitconfig`, `~/.gitignore_global`, `~/.ghci`
 - `~/.config/sketchybar/**`, `~/.config/kitty/kitty.conf`, `~/.config/starship.toml`, `~/.config/karabiner/karabiner.json`, `~/.config/nvim/**`
-- `Brewfile`, `install.sh`, `.github/**`, `scripts/check.sh`
+- `Brewfile`, `install.sh`, `.github/**`, `scripts/apply_theme.sh`, `scripts/check.sh`
 
 Ignored by default: noisy/sensitive app data under `~/.config/**` (Raycast, Joplin, gh, Copilot, etc.).
-
-
