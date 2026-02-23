@@ -150,7 +150,8 @@ sync_files() {
 title "Pre-flight checks"
 
 echo "Testing SSH connectivity to $SSH_TARGET ..."
-if ! ssh -o ConnectTimeout=10 -o BatchMode=yes "$SSH_TARGET" "echo ok" >/dev/null 2>&1; then
+echo "(You may be prompted to accept a host fingerprint and/or enter a password)"
+if ! ssh -o ConnectTimeout=10 "$SSH_TARGET" "echo ok"; then
 	err "Cannot connect to $SSH_TARGET via SSH"
 	cat <<-'EOF'
 
@@ -164,7 +165,7 @@ if ! ssh -o ConnectTimeout=10 -o BatchMode=yes "$SSH_TARGET" "echo ok" >/dev/nul
 fi
 ok "SSH connection successful"
 
-REMOTE_HOME=$(ssh "$SSH_TARGET" 'echo $HOME')
+REMOTE_HOME=$(ssh -o ConnectTimeout=10 "$SSH_TARGET" 'echo $HOME')
 echo "  Remote home: $REMOTE_HOME"
 
 if [ "$DRY_RUN" -eq 1 ]; then
