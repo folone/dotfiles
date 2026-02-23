@@ -41,10 +41,18 @@ yabai -m config right_padding                6
 yabai -m config window_gap                   12
 
 # Ensure 9 spaces exist (fresh macOS only has 1-2)
+# Requires the scripting addition (SIP changes); skips gracefully if unavailable
 current_spaces=$(yabai -m query --spaces --display | jq 'length')
-for ((i = current_spaces + 1; i <= 9; i++)); do
-	yabai -m space --create
-done
+if [ "$current_spaces" -lt 9 ]; then
+	if yabai -m space --create 2>/dev/null; then
+		for ((i = current_spaces + 2; i <= 9; i++)); do
+			yabai -m space --create 2>/dev/null || break
+		done
+		echo "Created spaces (now $(yabai -m query --spaces --display | jq 'length'))"
+	else
+		echo "Note: cannot create spaces (scripting addition not loaded). Create them manually via Mission Control."
+	fi
+fi
 
 # App rules: float annoying dialogs, keep system prefs floating, etc.
 yabai -m rule --add app="^System Settings$" manage=off

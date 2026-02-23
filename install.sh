@@ -166,6 +166,13 @@ else
 	defaults write com.apple.dock wvous-tr-corner -int 5
 	defaults write com.apple.dock wvous-tr-modifier -int 1048576
 
+	# Disable Spotlight shortcut (⌘+Space) so Raycast can use it
+	defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "64" \
+		"<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>32</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+	# Set Raycast hotkey to ⌘+Space
+	defaults write com.raycast.macos raycastGlobalHotkey -string "Command-49"
+
 	killall Dock 2>/dev/null || true
 	echo "macOS preferences applied"
 fi
@@ -195,16 +202,42 @@ if [ "$DRY_RUN" -eq 0 ]; then
 	echo "Shortcuts set (⌘+1..9 → Desktop 1..9). Log out and back in if they don't take effect immediately."
 fi
 
+# 5d) Ensure 9 Mission Control spaces exist
+title "Checking Mission Control spaces"
+if command -v yabai >/dev/null 2>&1 && [ "$DRY_RUN" -eq 0 ]; then
+	space_count=$(yabai -m query --spaces 2>/dev/null | jq 'length' 2>/dev/null || echo 0)
+	if [ "$space_count" -lt 9 ]; then
+		if ! yabai -m space --create 2>/dev/null; then
+			note "Need $((9 - space_count)) more spaces (you have $space_count)."
+			echo 'Opening Mission Control – click the "+" button at the top-right to add spaces until you have 9.'
+			open -b com.apple.exposelauncher
+			echo ""
+			printf "Press Enter when done..."
+			read -r
+			space_count=$(yabai -m query --spaces 2>/dev/null | jq 'length' 2>/dev/null || echo 0)
+			echo "Spaces: $space_count"
+		else
+			for i in $(seq "$((space_count + 2))" 9); do
+				yabai -m space --create 2>/dev/null || break
+			done
+			echo "Spaces created (now $(yabai -m query --spaces | jq 'length'))"
+		fi
+	else
+		echo "Spaces: $space_count (OK)"
+	fi
+elif [ "$DRY_RUN" -eq 1 ]; then
+	echo "+ check/create 9 Mission Control spaces"
+fi
+
 # 6) Start services
 if [ "$SKIP_SERVICES" -eq 1 ]; then
 	title "Skipping services (--skip-services)"
 	note "Run install.sh again without --skip-services after granting Accessibility permissions"
 else
-	title "Starting services"
+	title "(Re)starting services"
 	if command -v yabai >/dev/null 2>&1; then
 		if [ "$DRY_RUN" -eq 1 ]; then
-			echo "+ yabai --stop-service || true"
-			echo "+ yabai --start-service"
+			echo "+ yabai --restart-service"
 		else
 			yabai --stop-service >/dev/null 2>&1 || true
 			yabai --start-service || true
@@ -212,8 +245,7 @@ else
 	fi
 	if command -v skhd >/dev/null 2>&1; then
 		if [ "$DRY_RUN" -eq 1 ]; then
-			echo "+ skhd --stop-service || true"
-			echo "+ skhd --start-service"
+			echo "+ skhd --restart-service"
 		else
 			skhd --stop-service >/dev/null 2>&1 || true
 			skhd --start-service || true
@@ -221,11 +253,9 @@ else
 	fi
 	if command -v sketchybar >/dev/null 2>&1; then
 		if [ "$DRY_RUN" -eq 1 ]; then
-			echo "+ brew services start sketchybar"
-			echo "+ sketchybar --reload"
+			echo "+ brew services restart sketchybar"
 		else
-			brew services start sketchybar || true
-			sketchybar --reload || true
+			brew services restart sketchybar || true
 		fi
 	fi
 
