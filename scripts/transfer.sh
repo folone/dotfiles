@@ -266,6 +266,8 @@ if should_run cursor; then
 		"$REMOTE_HOME/.cursor/argv.json"
 	sync_dir "Cursor skills" "$REMOTE_HOME/.cursor/skills-cursor" "$HOME/.cursor/skills-cursor" \
 		"${EXCLUDE_COMMON[@]}"
+	sync_dir "Cursor rules" "$REMOTE_HOME/.cursor/rules" "$HOME/.cursor/rules" \
+		"${EXCLUDE_COMMON[@]}"
 fi
 
 # --- Shell history ---
