@@ -138,10 +138,34 @@ install_launchd
 # 5b) macOS preferences
 title "Configuring macOS preferences"
 if [ "$DRY_RUN" -eq 1 ]; then
-	echo '+ defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false'
+	echo "+ defaults write (scroll direction, key repeat, menu bar, dock, hot corners ...)"
 else
+	# Scroll direction: traditional (non-natural)
 	defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
-	echo "Scroll direction: traditional (non-natural)"
+
+	# Fast key repeat (essential for vim)
+	defaults write NSGlobalDomain InitialKeyRepeat -int 15
+	defaults write NSGlobalDomain KeyRepeat -int 2
+
+	# Disable press-and-hold accent picker so keys repeat normally
+	defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+	# Auto light/dark mode
+	defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
+
+	# Hide menu bar
+	defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
+	# Dock: auto-hide, don't rearrange spaces by recent use
+	defaults write com.apple.dock autohide -bool true
+	defaults write com.apple.dock mru-spaces -bool false
+
+	# Hot corner: top-right = Start Screen Saver (with Cmd modifier)
+	defaults write com.apple.dock wvous-tr-corner -int 5
+	defaults write com.apple.dock wvous-tr-modifier -int 1048576
+
+	killall Dock 2>/dev/null || true
+	echo "macOS preferences applied"
 fi
 
 # 5c) Mission Control: Cmd+1..9 to switch spaces
