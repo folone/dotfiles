@@ -298,7 +298,14 @@ if command -v gpg >/dev/null 2>&1; then
 	if gpg --list-secret-keys --keyid-format LONG 2>/dev/null | grep -q sec; then
 		echo "GPG secret key: OK"
 	else
-		warn_missing "GPG secret key" "import with: gpg --import <key-file>"
+		# keyboxd may be caching stale state; restart and retry
+		gpgconf --kill all 2>/dev/null || true
+		sleep 1
+		if gpg --list-secret-keys --keyid-format LONG 2>/dev/null | grep -q sec; then
+			echo "GPG secret key: OK (after restarting gpg-agent)"
+		else
+			warn_missing "GPG secret key" "try: gpgconf --kill all && gpg --list-secret-keys"
+		fi
 	fi
 fi
 

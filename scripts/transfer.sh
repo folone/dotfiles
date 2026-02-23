@@ -206,7 +206,19 @@ fi
 # --- GPG ---
 if should_run gpg; then
 	sync_dir "GPG keyring" "$REMOTE_HOME/.gnupg" "$HOME/.gnupg" \
-		"${EXCLUDE_COMMON[@]}" --exclude 'S.gpg-agent*' --exclude 'S.scdaemon'
+		"${EXCLUDE_COMMON[@]}" --exclude 'S.gpg-agent*' --exclude 'S.scdaemon' \
+		--exclude 'S.keyboxd' --exclude '.#lk*'
+
+	# Stale lock files from the old Mac block keyboxd on the new one
+	# Kill all GPG daemons, purge locks, so keyboxd re-reads the transferred keyring
+	if [ "$DRY_RUN" -eq 0 ]; then
+		gpgconf --kill all 2>/dev/null || true
+		find "$HOME/.gnupg" -name '.#lk*' -delete 2>/dev/null || true
+		find "$HOME/.gnupg" -name '*.lock' -delete 2>/dev/null || true
+		ok "GPG daemons restarted and stale locks removed"
+	else
+		echo "+ gpgconf --kill all; remove stale .#lk* and *.lock files"
+	fi
 fi
 
 # --- AWS ---
