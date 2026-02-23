@@ -135,6 +135,31 @@ install_launchd() {
 }
 install_launchd
 
+# 5b) Mission Control: Cmd+1..9 to switch spaces
+title "Configuring Mission Control shortcuts (⌘+1..9)"
+
+HOTKEY_IDS=(118 119 120 121 122 123 124 125 126)
+KEY_CODES=(18 19 20 21 23 22 26 28 25)
+CHAR_CODES=(49 50 51 52 53 54 55 56 57)
+CMD_MOD=1048576
+
+for idx in $(seq 0 8); do
+	hid="${HOTKEY_IDS[$idx]}"
+	kc="${KEY_CODES[$idx]}"
+	cc="${CHAR_CODES[$idx]}"
+	if [ "$DRY_RUN" -eq 1 ]; then
+		echo "+ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add \"$hid\" '... ⌘+$((idx + 1)) → Desktop $((idx + 1))'"
+	else
+		defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$hid" \
+			"<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>$cc</integer><integer>$kc</integer><integer>$CMD_MOD</integer></array><key>type</key><string>standard</string></dict></dict>"
+	fi
+done
+
+if [ "$DRY_RUN" -eq 0 ]; then
+	/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u 2>/dev/null || true
+	echo "Shortcuts set (⌘+1..9 → Desktop 1..9). Log out and back in if they don't take effect immediately."
+fi
+
 # 6) Start services
 if [ "$SKIP_SERVICES" -eq 1 ]; then
 	title "Skipping services (--skip-services)"
