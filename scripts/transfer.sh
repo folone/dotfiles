@@ -95,8 +95,20 @@ should_run() {
 	return 0
 }
 
-SSH_OPTS=(-o ConnectTimeout=30 -o ConnectionAttempts=3)
-RSYNC_BASE=(rsync -avz --progress -e "ssh -o ConnectTimeout=30 -o ConnectionAttempts=3")
+SSH_CONTROL_DIR=$(mktemp -d)
+SSH_CONTROL_PATH="$SSH_CONTROL_DIR/mux-%r@%h:%p"
+cleanup_ssh() { rm -rf "$SSH_CONTROL_DIR"; }
+trap cleanup_ssh EXIT
+
+SSH_OPTS=(
+	-o ConnectTimeout=30
+	-o ConnectionAttempts=3
+	-o ControlMaster=auto
+	-o ControlPath="$SSH_CONTROL_PATH"
+	-o ControlPersist=600
+)
+SSH_OPTS_STR="ssh -o ConnectTimeout=30 -o ConnectionAttempts=3 -o ControlMaster=auto -o ControlPath=$SSH_CONTROL_PATH -o ControlPersist=600"
+RSYNC_BASE=(rsync -avz --progress -e "$SSH_OPTS_STR")
 if [ "$DRY_RUN" -eq 1 ]; then
 	RSYNC_BASE+=(--dry-run)
 fi
