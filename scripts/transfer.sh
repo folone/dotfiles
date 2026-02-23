@@ -95,7 +95,8 @@ should_run() {
 	return 0
 }
 
-RSYNC_BASE=(rsync -avz --progress -e ssh)
+SSH_OPTS=(-o ConnectTimeout=30 -o ConnectionAttempts=3)
+RSYNC_BASE=(rsync -avz --progress -e "ssh -o ConnectTimeout=30 -o ConnectionAttempts=3")
 if [ "$DRY_RUN" -eq 1 ]; then
 	RSYNC_BASE+=(--dry-run)
 fi
@@ -107,13 +108,13 @@ sync_dir() {
 
 	title "Transferring: $label"
 
-	if ! ssh "$SSH_TARGET" "test -d '$remote_path' || test -f '$remote_path'" 2>/dev/null; then
+	if ! ssh "${SSH_OPTS[@]}" "$SSH_TARGET" "test -d '$remote_path' || test -f '$remote_path'" 2>/dev/null; then
 		note "$remote_path does not exist on remote – skipping"
 		return 0
 	fi
 
 	local size
-	size=$(ssh "$SSH_TARGET" "du -sh '$remote_path' 2>/dev/null | cut -f1" || echo "unknown")
+	size=$(ssh "${SSH_OPTS[@]}" "$SSH_TARGET" "du -sh '$remote_path' 2>/dev/null | cut -f1" || echo "unknown")
 	echo "  Remote size: $size"
 
 	mkdir -p "$local_path"
@@ -134,7 +135,7 @@ sync_files() {
 	mkdir -p "$local_dir"
 
 	for rf in "${remote_files[@]}"; do
-		if ! ssh "$SSH_TARGET" "test -f '$rf'" 2>/dev/null; then
+		if ! ssh "${SSH_OPTS[@]}" "$SSH_TARGET" "test -f '$rf'" 2>/dev/null; then
 			note "$rf does not exist on remote – skipping"
 			continue
 		fi
@@ -151,7 +152,8 @@ title "Pre-flight checks"
 
 echo "Testing SSH connectivity to $SSH_TARGET ..."
 echo "(You may be prompted to accept a host fingerprint and/or enter a password)"
-if ! ssh -o ConnectTimeout=10 "$SSH_TARGET" "echo ok"; then
+
+if ! ssh "${SSH_OPTS[@]}" "$SSH_TARGET" "echo ok"; then
 	err "Cannot connect to $SSH_TARGET via SSH"
 	cat <<-'EOF'
 
@@ -165,7 +167,7 @@ if ! ssh -o ConnectTimeout=10 "$SSH_TARGET" "echo ok"; then
 fi
 ok "SSH connection successful"
 
-REMOTE_HOME=$(ssh -o ConnectTimeout=10 "$SSH_TARGET" 'echo $HOME')
+REMOTE_HOME=$(ssh "${SSH_OPTS[@]}" "$SSH_TARGET" 'echo $HOME')
 echo "  Remote home: $REMOTE_HOME"
 
 if [ "$DRY_RUN" -eq 1 ]; then
@@ -211,7 +213,7 @@ fi
 # --- Workspace ---
 if should_run workspace; then
 	title "Workspace size estimate"
-	ws_size=$(ssh "$SSH_TARGET" "du -sh '$REMOTE_HOME/workspace' 2>/dev/null | cut -f1" || echo "unknown")
+	ws_size=$(ssh "${SSH_OPTS[@]}" "$SSH_TARGET" "du -sh '$REMOTE_HOME/workspace' 2>/dev/null | cut -f1" || echo "unknown")
 	echo "  ~/workspace on remote: $ws_size"
 	note "This may take a while. Use --skip workspace to skip, or --only workspace to run alone."
 
