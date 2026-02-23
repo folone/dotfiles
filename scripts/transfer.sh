@@ -95,8 +95,9 @@ should_run() {
 	return 0
 }
 
-SSH_CONTROL_DIR=$(mktemp -d)
-SSH_CONTROL_PATH="$SSH_CONTROL_DIR/mux-%r@%h:%p"
+SSH_CONTROL_DIR="/tmp/dotfiles-transfer.$$"
+mkdir -p "$SSH_CONTROL_DIR"
+SSH_CONTROL_PATH="$SSH_CONTROL_DIR/mux"
 cleanup_ssh() { rm -rf "$SSH_CONTROL_DIR"; }
 trap cleanup_ssh EXIT
 
