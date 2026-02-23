@@ -158,9 +158,11 @@ else
 	# Hide menu bar
 	defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
-	# Dock: auto-hide, don't rearrange spaces by recent use
+	# Dock: auto-hide, don't rearrange spaces by recent use,
+	# don't auto-switch space when activating an app with windows elsewhere
 	defaults write com.apple.dock autohide -bool true
 	defaults write com.apple.dock mru-spaces -bool false
+	defaults write com.apple.dock workspaces-auto-swoosh -bool false
 
 	# Hot corner: top-right = Start Screen Saver (with Cmd modifier)
 	defaults write com.apple.dock wvous-tr-corner -int 5
