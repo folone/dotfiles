@@ -58,7 +58,9 @@ else
 		echo "+ brew bundle --file=\"$BREWFILE\""
 	else
 		brew update
-		brew bundle --file="$BREWFILE"
+		if ! brew bundle --file="$BREWFILE"; then
+			note "Some Brewfile packages failed to install (continuing anyway)"
+		fi
 	fi
 fi
 
