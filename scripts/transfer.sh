@@ -76,7 +76,7 @@ if [ -z "$REMOTE_HOST" ]; then
 	usage
 fi
 
-if [[ "$REMOTE_HOST" == *@* ]]; then
+if [[ $REMOTE_HOST == *@* ]]; then
 	REMOTE_USER="${REMOTE_HOST%%@*}"
 	REMOTE_HOST="${REMOTE_HOST#*@}"
 fi
@@ -119,7 +119,7 @@ sync_dir() {
 	mkdir -p "$local_path"
 
 	# Trailing slash on remote_path ensures contents are synced into local_path
-	[[ "$remote_path" != */ ]] && remote_path="${remote_path}/"
+	[[ $remote_path != */ ]] && remote_path="${remote_path}/"
 
 	"${RSYNC_BASE[@]}" "${extra_args[@]}" "$SSH_TARGET:$remote_path" "$local_path/"
 	ok "$label done"
@@ -284,6 +284,20 @@ if [ -d "$HOME/.gnupg" ]; then
 		chmod 700 "$HOME/.gnupg"
 		find "$HOME/.gnupg/private-keys-v1.d" -type f -exec chmod 600 {} + 2>/dev/null || true
 		ok "GPG permissions fixed"
+	fi
+fi
+
+###############################################################################
+# Switch dotfiles remote to SSH (now that keys are in place)
+###############################################################################
+
+if [ "$DRY_RUN" -eq 0 ] && [ -f "$HOME/.ssh/id_ed25519" ]; then
+	dotfiles_remote=$(git -C "$HOME" remote get-url origin 2>/dev/null || true)
+	if [[ $dotfiles_remote == https://github.com/* ]]; then
+		ssh_url="${dotfiles_remote/https:\/\/github.com\//git@github.com:}"
+		title "Switching dotfiles remote to SSH"
+		git -C "$HOME" remote set-url origin "$ssh_url"
+		ok "origin → $ssh_url"
 	fi
 fi
 

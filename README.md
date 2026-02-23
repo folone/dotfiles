@@ -101,9 +101,22 @@ Transfer your environment to a new Mac using a Thunderbolt cable and rsync.
 2. Find its IP: `ifconfig bridge0` (or check System Settings → Network → Thunderbolt Bridge)
 
 **On the new Mac:**
+
 1. Connect the Thunderbolt cable
-2. Clone this dotfiles repo into `~`
-3. Transfer non-repo files (SSH keys, GPG, workspace, etc.):
+
+2. Clone this dotfiles repo into `~` (the home directory already exists, so use init + pull):
+
+```bash
+cd ~
+git init
+git remote add origin https://github.com/folone/dotfiles.git
+git fetch origin
+git checkout -f master
+```
+
+We use HTTPS here because SSH keys haven't been transferred yet. The transfer script automatically switches the remote to SSH after keys are in place.
+
+3. Transfer non-repo files (SSH keys, GPG, workspace, etc.) from the old Mac:
 
 ```bash
 bash scripts/transfer.sh --dry-run user@<old-mac-ip>   # preview
@@ -114,6 +127,13 @@ bash scripts/transfer.sh user@<old-mac-ip>              # for real
 
 ```bash
 bash install.sh --skip-services    # before granting Accessibility
+```
+
+5. Grant Accessibility to yabai, skhd, and sketchybar in System Settings → Privacy & Security → Accessibility
+
+6. Start services:
+
+```bash
 bash install.sh                    # after granting Accessibility
 ```
 

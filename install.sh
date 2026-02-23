@@ -10,7 +10,10 @@ while [[ $# -gt 0 ]]; do
 	case "$1" in
 		--dry-run | -n) DRY_RUN=1 ;;
 		--skip-services) SKIP_SERVICES=1 ;;
-		*) echo "Unknown option: $1" >&2; exit 1 ;;
+		*)
+			echo "Unknown option: $1" >&2
+			exit 1
+			;;
 	esac
 	shift
 done
