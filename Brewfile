@@ -19,6 +19,8 @@ brew "shfmt"
 brew "stylua"
 brew "git-lfs"
 
+cask "visual-studio-code"
+cask "cursor"
 cask "kitty"
 cask "font-jetbrains-mono-nerd-font"
 cask "karabiner-elements"

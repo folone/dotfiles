@@ -27,10 +27,13 @@ Dry-run to preview actions:
 ./install.sh --dry-run
 ```
 
-Notes:
-- Approve Accessibility for `yabai`, `skhd`, and `sketchybar` in System Settings → Privacy & Security → Accessibility.
+After install:
+- Grant **Accessibility** to `yabai`, `skhd`, `sketchybar` in System Settings → Privacy & Security → Accessibility.
+- Grant **Input Monitoring** to Karabiner-Elements items, then launch it: `open -a "Karabiner-Elements"` (Caps Lock → Right Control is configured automatically).
+- Launch **Raycast**: `open -a "Raycast"` (Cmd+Space hotkey and Spotlight disabling are configured automatically).
+- **Log out and back in** to activate Cmd+1..9 space switching, Spotlight removal, scroll direction, and key repeat settings.
 - Set your terminal font to "JetBrainsMono Nerd Font".
-- If you want full yabai features, follow the SIP guidance in the official docs: [Disabling System Integrity Protection](https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection).
+- If you want full yabai features (e.g. scripted space creation), follow the SIP guidance: [Disabling System Integrity Protection](https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection).
 
 ### Keybindings (skhd)
 

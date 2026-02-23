@@ -322,13 +322,26 @@ fi
 # 8) Post-install notes
 title "Post-install steps"
 cat <<'EOS'
-- Grant Accessibility to yabai, skhd, and sketchybar:
-  System Settings → Privacy & Security → Accessibility → enable these apps
-- If you want full yabai features, follow SIP notes:
-  https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection
-- Create Mission Control spaces as you like (we label them α β γ δ ε ζ η θ ι)
-- Hide Menu Bar and Dock (System Settings) for a clean look
-- Set your terminal font to “JetBrainsMono Nerd Font”
+- Grant Accessibility permissions:
+  System Settings → Privacy & Security → Accessibility:
+    → yabai, skhd, sketchybar
+  System Settings → Privacy & Security → Input Monitoring:
+    → Karabiner-Elements, karabiner_grabber, karabiner_observer
+
+- Start/restart Karabiner-Elements:
+    open -a "Karabiner-Elements"
+  (Caps Lock → Right Control is configured automatically)
+
+- Start/restart Raycast:
+    open -a "Raycast"
+  (Cmd+Space hotkey is configured automatically; Spotlight shortcut is disabled)
+
+- Log out and back in (or restart) to activate:
+    → Cmd+1..9 Mission Control shortcuts
+    → Spotlight shortcut removal
+    → Scroll direction, key repeat, and other system preferences
+
+- Set your terminal font to "JetBrainsMono Nerd Font"
 
 - Automatic Light/Dark theme:
   - The theme watcher writes the current mode to ~/.theme and notifies apps
@@ -336,7 +349,7 @@ cat <<'EOS'
     - ~/.config/kitty/theme-light.conf
     - ~/.config/kitty/theme-dark.conf
 
-Tip: Kitty is installed. Launch with: open -na "Kitty" (or ⌥ + enter as configured by skhd)
+Tip: Kitty is installed. Launch with: open -na "Kitty" (or Alt+Return as configured by skhd)
 EOS
 
 echo "Done. Restart your session or re-run apps if needed."
