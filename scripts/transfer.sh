@@ -130,7 +130,9 @@ sync_dir() {
 	size=$(ssh "${SSH_OPTS[@]}" "$SSH_TARGET" "du -sh '$remote_path' 2>/dev/null | cut -f1" || echo "unknown")
 	echo "  Remote size: $size"
 
-	mkdir -p "$local_path"
+	if [ "$DRY_RUN" -eq 0 ]; then
+		mkdir -p "$local_path"
+	fi
 
 	# Trailing slash on remote_path ensures contents are synced into local_path
 	[[ $remote_path != */ ]] && remote_path="${remote_path}/"
@@ -145,7 +147,9 @@ sync_files() {
 	local remote_files=("$@")
 
 	title "Transferring: $label"
-	mkdir -p "$local_dir"
+	if [ "$DRY_RUN" -eq 0 ]; then
+		mkdir -p "$local_dir"
+	fi
 
 	for rf in "${remote_files[@]}"; do
 		if ! ssh "${SSH_OPTS[@]}" "$SSH_TARGET" "test -f '$rf'" 2>/dev/null; then
