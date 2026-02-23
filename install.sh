@@ -135,7 +135,16 @@ install_launchd() {
 }
 install_launchd
 
-# 5b) Mission Control: Cmd+1..9 to switch spaces
+# 5b) macOS preferences
+title "Configuring macOS preferences"
+if [ "$DRY_RUN" -eq 1 ]; then
+	echo '+ defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false'
+else
+	defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+	echo "Scroll direction: traditional (non-natural)"
+fi
+
+# 5c) Mission Control: Cmd+1..9 to switch spaces
 title "Configuring Mission Control shortcuts (⌘+1..9)"
 
 HOTKEY_IDS=(118 119 120 121 122 123 124 125 126)
