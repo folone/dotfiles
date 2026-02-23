@@ -18,6 +18,9 @@ fi
 if [ -f scripts/apply_theme.sh ]; then
   lint_files+=( scripts/apply_theme.sh )
 fi
+if [ -f scripts/transfer.sh ]; then
+  lint_files+=( scripts/transfer.sh )
+fi
 shellcheck -S error "${lint_files[@]}"
 
 echo '==> Shell formatting check'
@@ -28,6 +31,9 @@ if ls .config/sketchybar/scripts/*.sh >/dev/null 2>&1; then
 fi
 if [ -f scripts/apply_theme.sh ]; then
   fmt_files+=( scripts/apply_theme.sh )
+fi
+if [ -f scripts/transfer.sh ]; then
+  fmt_files+=( scripts/transfer.sh )
 fi
 if [ ${#fmt_files[@]} -gt 0 ]; then
   shfmt -d -s -ci "${fmt_files[@]}"

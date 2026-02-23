@@ -92,6 +92,40 @@ Kitty shortcuts:
   - `~/.config/kitty/theme-dark.conf`
 - Add more actions by creating an executable `~/scripts/on_theme_change.sh` which will receive `light` or `dark` as its first arg.
 
+### Migration to a new Mac
+
+Transfer your environment to a new Mac using a Thunderbolt cable and rsync.
+
+**On the old Mac:**
+1. System Settings → General → Sharing → Remote Login → ON
+2. Find its IP: `ifconfig bridge0` (or check System Settings → Network → Thunderbolt Bridge)
+
+**On the new Mac:**
+1. Connect the Thunderbolt cable
+2. Clone this dotfiles repo into `~`
+3. Transfer non-repo files (SSH keys, GPG, workspace, etc.):
+
+```bash
+bash scripts/transfer.sh --dry-run user@<old-mac-ip>   # preview
+bash scripts/transfer.sh user@<old-mac-ip>              # for real
+```
+
+4. Install everything:
+
+```bash
+bash install.sh --skip-services    # before granting Accessibility
+bash install.sh                    # after granting Accessibility
+```
+
+The transfer script supports `--only` and `--skip` to control which groups are synced:
+
+```bash
+bash scripts/transfer.sh --only ssh,gpg,history user@<old-mac-ip>
+bash scripts/transfer.sh --skip workspace user@<old-mac-ip>
+```
+
+Groups: `ssh`, `gpg`, `aws`, `kube`, `docker`, `workspace`, `cursor`, `history`, `misc`, `snoodev-ssh`
+
 ### CI and local checks
 
 - GitHub Actions workflow: `.github/workflows/ci.yml`

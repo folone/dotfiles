@@ -3,12 +3,17 @@ set -euo pipefail
 
 THIS_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-# Dry run support: pass --dry-run/-n or set DRY_RUN=1
+# Flag support: --dry-run/-n, --skip-services
 DRY_RUN=${DRY_RUN:-0}
-if [[ ${1:-} == "--dry-run" || ${1:-} == "-n" ]]; then
-	DRY_RUN=1
-	shift || true
-fi
+SKIP_SERVICES=${SKIP_SERVICES:-0}
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		--dry-run | -n) DRY_RUN=1 ;;
+		--skip-services) SKIP_SERVICES=1 ;;
+		*) echo "Unknown option: $1" >&2; exit 1 ;;
+	esac
+	shift
+done
 
 title() { printf "\n\033[1;36m==> %s\033[0m\n" "$*"; }
 note() { printf "\033[0;33m[!] %s\033[0m\n" "$*"; }
@@ -92,6 +97,8 @@ link .zshrc .zshrc
 link .gitconfig .gitconfig
 link .gitignore_global .gitignore_global
 link .ghci .ghci || true
+link .vimrc .vimrc || true
+link .bash_profile .bash_profile || true
 
 link .config/sketchybar .config/sketchybar
 link .config/kitty/kitty.conf .config/kitty/kitty.conf
@@ -104,6 +111,7 @@ link .config/nvim .config/nvim
 # Scripts
 link scripts/apply_theme.sh scripts/apply_theme.sh
 link scripts/check.sh scripts/check.sh
+link scripts/transfer.sh scripts/transfer.sh
 
 # Install LaunchAgent plist (substitute __HOME__ placeholder and validate)
 install_launchd() {
@@ -125,62 +133,98 @@ install_launchd() {
 install_launchd
 
 # 6) Start services
-title "Starting services"
-if command -v yabai >/dev/null 2>&1; then
-	if [ "$DRY_RUN" -eq 1 ]; then
-		echo "+ yabai --stop-service || true"
-		echo "+ yabai --start-service"
-	else
-		yabai --stop-service >/dev/null 2>&1 || true
-		yabai --start-service || true
-	fi
-fi
-if command -v skhd >/dev/null 2>&1; then
-	if [ "$DRY_RUN" -eq 1 ]; then
-		echo "+ skhd --stop-service || true"
-		echo "+ skhd --start-service"
-	else
-		skhd --stop-service >/dev/null 2>&1 || true
-		skhd --start-service || true
-	fi
-fi
-if command -v sketchybar >/dev/null 2>&1; then
-	if [ "$DRY_RUN" -eq 1 ]; then
-		echo "+ brew services start sketchybar"
-		echo "+ sketchybar --reload"
-	else
-		brew services start sketchybar || true
-		sketchybar --reload || true
-	fi
-fi
-
-# 6b) Theme watcher (Light/Dark auto)
-title "Configuring theme watcher"
-if [ "$DRY_RUN" -eq 1 ]; then
-	echo "+ chmod +x \"$HOME/scripts/\"*.sh"
-	echo "+ chmod +x \"$HOME/.config/sketchybar/scripts/\"*.sh"
-	echo "+ launchctl bootout gui/$(id -u) local.theme-watcher || true"
-	echo "+ launchctl bootstrap gui/$(id -u) \"$HOME/Library/LaunchAgents/local.theme-watcher.plist\""
-	echo "+ launchctl enable gui/$(id -u)/local.theme-watcher"
-	echo "+ launchctl kickstart -k gui/$(id -u)/local.theme-watcher"
-	echo "+ zsh -lc \"$HOME/scripts/apply_theme.sh\""
+if [ "$SKIP_SERVICES" -eq 1 ]; then
+	title "Skipping services (--skip-services)"
+	note "Run install.sh again without --skip-services after granting Accessibility permissions"
 else
-	chmod +x "$HOME/scripts/"*.sh || true
-	chmod +x "$HOME/.config/sketchybar/scripts/"*.sh || true
-	chmod +x "$HOME/.config/sketchybar/sketchybarrc" || true
-	launchctl bootout gui/"$(id -u)" local.theme-watcher >/dev/null 2>&1 || true
-	if ! launchctl bootstrap gui/"$(id -u)" "$HOME/Library/LaunchAgents/local.theme-watcher.plist"; then
-		# Fallback for older macOS
-		launchctl unload -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" >/dev/null 2>&1 || true
-		launchctl load -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" || true
-	else
-		launchctl enable gui/"$(id -u)"/local.theme-watcher || true
-		launchctl kickstart -k gui/"$(id -u)"/local.theme-watcher || true
+	title "Starting services"
+	if command -v yabai >/dev/null 2>&1; then
+		if [ "$DRY_RUN" -eq 1 ]; then
+			echo "+ yabai --stop-service || true"
+			echo "+ yabai --start-service"
+		else
+			yabai --stop-service >/dev/null 2>&1 || true
+			yabai --start-service || true
+		fi
 	fi
-	zsh -lc "$HOME/scripts/apply_theme.sh" || true
+	if command -v skhd >/dev/null 2>&1; then
+		if [ "$DRY_RUN" -eq 1 ]; then
+			echo "+ skhd --stop-service || true"
+			echo "+ skhd --start-service"
+		else
+			skhd --stop-service >/dev/null 2>&1 || true
+			skhd --start-service || true
+		fi
+	fi
+	if command -v sketchybar >/dev/null 2>&1; then
+		if [ "$DRY_RUN" -eq 1 ]; then
+			echo "+ brew services start sketchybar"
+			echo "+ sketchybar --reload"
+		else
+			brew services start sketchybar || true
+			sketchybar --reload || true
+		fi
+	fi
+
+	# 6b) Theme watcher (Light/Dark auto)
+	title "Configuring theme watcher"
+	if [ "$DRY_RUN" -eq 1 ]; then
+		echo "+ chmod +x \"$HOME/scripts/\"*.sh"
+		echo "+ chmod +x \"$HOME/.config/sketchybar/scripts/\"*.sh"
+		echo "+ launchctl bootout gui/$(id -u) local.theme-watcher || true"
+		echo "+ launchctl bootstrap gui/$(id -u) \"$HOME/Library/LaunchAgents/local.theme-watcher.plist\""
+		echo "+ launchctl enable gui/$(id -u)/local.theme-watcher"
+		echo "+ launchctl kickstart -k gui/$(id -u)/local.theme-watcher"
+		echo "+ zsh -lc \"$HOME/scripts/apply_theme.sh\""
+	else
+		chmod +x "$HOME/scripts/"*.sh || true
+		chmod +x "$HOME/.config/sketchybar/scripts/"*.sh || true
+		chmod +x "$HOME/.config/sketchybar/sketchybarrc" || true
+		launchctl bootout gui/"$(id -u)" local.theme-watcher >/dev/null 2>&1 || true
+		if ! launchctl bootstrap gui/"$(id -u)" "$HOME/Library/LaunchAgents/local.theme-watcher.plist"; then
+			launchctl unload -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" >/dev/null 2>&1 || true
+			launchctl load -wF "$HOME/Library/LaunchAgents/local.theme-watcher.plist" || true
+		else
+			launchctl enable gui/"$(id -u)"/local.theme-watcher || true
+			launchctl kickstart -k gui/"$(id -u)"/local.theme-watcher || true
+		fi
+		zsh -lc "$HOME/scripts/apply_theme.sh" || true
+	fi
 fi
 
-# 7) Post-install notes
+# 7) Post-install verification
+title "Verifying environment"
+warn_missing() { note "Missing: $1 – $2"; }
+
+[ -f "$HOME/.ssh/id_ed25519" ] && echo "SSH key (ed25519): OK" || warn_missing "~/.ssh/id_ed25519" "run scripts/transfer.sh or copy manually"
+[ -f "$HOME/.ssh/config" ] && echo "SSH config: OK" || warn_missing "~/.ssh/config" "run scripts/transfer.sh or copy manually"
+
+if command -v gpg >/dev/null 2>&1; then
+	if gpg --list-secret-keys --keyid-format LONG 2>/dev/null | grep -q sec; then
+		echo "GPG secret key: OK"
+	else
+		warn_missing "GPG secret key" "import with: gpg --import <key-file>"
+	fi
+fi
+
+[ -f "$HOME/.aws/config" ] && echo "AWS config: OK" || warn_missing "~/.aws/config" "run scripts/transfer.sh or aws configure"
+[ -d "$HOME/workspace/snoodev" ] && echo "Snoodev: OK" || warn_missing "~/workspace/snoodev" "clone or run scripts/transfer.sh"
+
+if command -v brew >/dev/null 2>&1 && [ -f "$THIS_DIR/Brewfile" ]; then
+	if brew bundle check --file="$THIS_DIR/Brewfile" >/dev/null 2>&1; then
+		echo "Brewfile: all packages installed"
+	else
+		warn_missing "some Brew packages" "run: brew bundle --file=$THIS_DIR/Brewfile"
+	fi
+fi
+
+if command -v git-lfs >/dev/null 2>&1; then
+	echo "Git LFS: OK"
+else
+	warn_missing "git-lfs" "run: brew install git-lfs && git lfs install"
+fi
+
+# 8) Post-install notes
 title "Post-install steps"
 cat <<'EOS'
 - Grant Accessibility to yabai, skhd, and sketchybar:
