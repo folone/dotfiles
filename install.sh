@@ -162,7 +162,7 @@ else
 	# don't auto-switch space when activating an app with windows elsewhere
 	defaults write com.apple.dock autohide -bool true
 	defaults write com.apple.dock mru-spaces -bool false
-	defaults write com.apple.dock workspaces-auto-swoosh -bool false
+	defaults write com.apple.dock workspaces-auto-swoosh -bool true
 
 	# Hot corner: top-right = Start Screen Saver (with Cmd modifier)
 	defaults write com.apple.dock wvous-tr-corner -int 5
