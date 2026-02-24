@@ -38,7 +38,7 @@ usage() {
 		  --skip GROUPS     Comma-separated list of groups to skip
 		  -h, --help        Show this help
 
-		Groups: ssh, gpg, aws, kube, docker, workspace, cursor, history, misc, snoodev-ssh
+		Groups: ssh, gpg, aws, kube, docker, workspace, cursor, history, misc, ssh-config
 
 		Example:
 		  transfer.sh --dry-run george.leontiev@169.254.47.1
@@ -284,9 +284,9 @@ if should_run misc; then
 		"$REMOTE_HOME/.claude.json"
 fi
 
-# --- Snoodev SSH config ---
-if should_run snoodev-ssh; then
-	sync_dir "Snoodev SSH config" "$REMOTE_HOME/src/ssh-config" "$HOME/src/ssh-config" \
+# --- SSH config ---
+if should_run ssh-config; then
+	sync_dir "SSH config" "$REMOTE_HOME/src/ssh-config" "$HOME/src/ssh-config" \
 		"${EXCLUDE_COMMON[@]}"
 fi
 
@@ -307,6 +307,23 @@ if [ -d "$HOME/.ssh" ]; then
 		find "$HOME/.ssh" -name '*.pub' -exec chmod 644 {} + 2>/dev/null || true
 		[ -f "$HOME/.ssh/config" ] && chmod 600 "$HOME/.ssh/config"
 		ok "SSH permissions fixed"
+	fi
+fi
+
+# Re-add SSH keys to macOS Keychain (passphrases don't survive rsync)
+if [ -d "$HOME/.ssh" ]; then
+	if [ "$DRY_RUN" -eq 1 ]; then
+		echo "+ re-add passphrase-protected SSH keys to macOS Keychain"
+	else
+		for key in "$HOME/.ssh"/id_*; do
+			[[ $key == *.pub ]] && continue
+			[ ! -f "$key" ] && continue
+			if ! ssh-keygen -y -P "" -f "$key" >/dev/null 2>&1; then
+				note "$(basename "$key") has a passphrase (not in Keychain on this Mac)"
+				echo "  Run: ssh-add --apple-use-keychain $key"
+				echo "  (You'll need the passphrase once; it will be stored in Keychain)"
+			fi
+		done
 	fi
 fi
 
@@ -351,10 +368,12 @@ else
 		  2. Grant Accessibility permissions (System Settings → Privacy & Security)
 		  3. Re-run install.sh to start services:
 		       bash install.sh
-		  4. Authenticate CLI tools:
+		  4. Test SSH auth:
+		       ssh -T git@github.com
+		  5. Authenticate CLI tools:
 		       gh auth login
 		       aws configure  (or verify ~/.aws/config)
-		  5. Recreate Python venv if needed:
+		  6. Recreate Python venv if needed:
 		       python3 -m venv ~/workspace/venv
 	EOS
 fi
